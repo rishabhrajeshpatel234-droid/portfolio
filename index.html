@@ -42,9 +42,9 @@
         <ul class="nav-list">
           <li><button class="nav-link" id="nav-home-btn" data-target="home">Home</button></li>
           <li><button class="nav-link" id="nav-about-btn" data-target="about">About</button></li>
-          <li><a href="#skills" class="nav-link" id="nav-skills-link">Skills</a></li>
-          <li><a href="#journey" class="nav-link" id="nav-journey-link">Journey</a></li>
-          <li><a href="#contact" class="nav-link" id="nav-contact-link">Contact</a></li>
+          <li><button class="nav-link big-light-trigger" id="nav-skills-link" data-target="skills">Skills</button></li>
+          <li><button class="nav-link big-light-trigger" id="nav-journey-link" data-target="journey">Journey</button></li>
+          <li><button class="nav-link big-light-trigger" id="nav-contact-link" data-target="contact">Contact</button></li>
         </ul>
       </nav>
 
@@ -64,117 +64,247 @@
       <div class="bubble-tail"></div>
     </div>
 
-    <!-- Doraemon Character Illustration (Pure SVG) -->
-    <div class="doraemon-character">
-      <svg class="doraemon-svg" viewBox="0 0 220 270" width="160" height="196" xmlns="http://www.w3.org/2000/svg">
+    <!-- Doraemon Character Illustration (Realistic 3D Shaded SVG) -->
+    <div class="doraemon-character" id="doraemon-clickable" title="Click me for a surprise chime!">
+      <!-- Sparkle Burst Layer on Click -->
+      <div class="sparkles-container" id="doraemon-sparkles" aria-hidden="true">
+        <span class="sparkle sp-1">✨</span>
+        <span class="sparkle sp-2">⭐</span>
+        <span class="sparkle sp-3">✨</span>
+        <span class="sparkle sp-4">🌟</span>
+      </div>
+
+      <svg class="doraemon-svg" viewBox="0 0 220 280" width="160" height="203" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <radialGradient id="noseGlow" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#ff7b88" />
+          <!-- 3D Volumetric Head Gradient -->
+          <radialGradient id="head3D" cx="36%" cy="32%" r="68%">
+            <stop offset="0%" stop-color="#40c4ff" />
+            <stop offset="35%" stop-color="#0096E0" />
+            <stop offset="75%" stop-color="#0077b8" />
+            <stop offset="100%" stop-color="#005485" />
+          </radialGradient>
+
+          <!-- 3D Face Mask Gradient (Soft Ambient Curvature) -->
+          <radialGradient id="face3D" cx="48%" cy="40%" r="62%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="78%" stop-color="#f4f8fc" />
+            <stop offset="100%" stop-color="#dbe6f0" />
+          </radialGradient>
+
+          <!-- 3D Body Gradient -->
+          <radialGradient id="body3D" cx="38%" cy="34%" r="65%">
+            <stop offset="0%" stop-color="#38bdf8" />
+            <stop offset="40%" stop-color="#0096E0" />
+            <stop offset="80%" stop-color="#0072ad" />
+            <stop offset="100%" stop-color="#004a75" />
+          </radialGradient>
+
+          <!-- 3D White Belly Gradient -->
+          <radialGradient id="belly3D" cx="46%" cy="38%" r="60%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="72%" stop-color="#f8fafc" />
+            <stop offset="100%" stop-color="#d6e3f0" />
+          </radialGradient>
+
+          <!-- Spherical Shiny Red Nose -->
+          <radialGradient id="nose3D" cx="32%" cy="28%" r="68%">
+            <stop offset="0%" stop-color="#ff8594" />
+            <stop offset="25%" stop-color="#ff3b4e" />
             <stop offset="70%" stop-color="#e12b38" />
-            <stop offset="100%" stop-color="#a80f1b" />
+            <stop offset="100%" stop-color="#8a0712" />
           </radialGradient>
-          <radialGradient id="bellGlow" cx="40%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#fff8b5" />
-            <stop offset="60%" stop-color="#ffd200" />
-            <stop offset="100%" stop-color="#c99700" />
+
+          <!-- Metallic Gold Bell Gradient -->
+          <radialGradient id="bell3D" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fffde0" />
+            <stop offset="30%" stop-color="#ffd52c" />
+            <stop offset="75%" stop-color="#e59d00" />
+            <stop offset="100%" stop-color="#996000" />
           </radialGradient>
-          <filter id="comicShadow" x="-10%" y="-10%" width="130%" height="130%">
-            <feDropShadow dx="3" dy="4" stdDeviation="0" flood-color="#143058" flood-opacity="0.25"/>
+
+          <!-- Cylindrical Red Collar -->
+          <linearGradient id="collar3D" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ff4b5c" />
+            <stop offset="50%" stop-color="#e12b38" />
+            <stop offset="100%" stop-color="#960e19" />
+          </linearGradient>
+
+          <!-- Spherical White Hands -->
+          <radialGradient id="hand3D" cx="36%" cy="36%" r="64%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="70%" stop-color="#f1f5f9" />
+            <stop offset="100%" stop-color="#cbd5e1" />
+          </radialGradient>
+
+          <!-- Propeller Yellow Stalk -->
+          <linearGradient id="stalk3D" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#ffe66d" />
+            <stop offset="45%" stop-color="#ffd200" />
+            <stop offset="100%" stop-color="#b88600" />
+          </linearGradient>
+
+          <!-- Soft Realistic Ambient Drop Shadow -->
+          <filter id="softDoraemonShadow" x="-15%" y="-15%" width="135%" height="135%">
+            <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#0a1d37" flood-opacity="0.22"/>
           </filter>
         </defs>
 
         <!-- Propeller (Take-copter / Bamboo-copter) -->
-        <g class="take-copter" id="take-copter">
-          <!-- Spinning Rotor Blade -->
-          <g class="rotor-blades">
-            <ellipse cx="110" cy="8" rx="42" ry="4" fill="#ffd200" stroke="#1a202c" stroke-width="2.2" />
-            <ellipse cx="110" cy="8" rx="8" ry="3" fill="#ff7043" />
+        <g class="take-copter-assembly" id="take-copter-group">
+          <!-- Spinning Rotor Blade Controlled via JS on Scroll -->
+          <g class="take-copter-rotor" id="take-copter-rotor" transform-origin="110 9">
+            <!-- Left Blade -->
+            <path d="M 110 9 C 95 3, 70 4, 60 9 C 70 14, 95 15, 110 9 Z" fill="#ffd52c" stroke="#14213d" stroke-width="1.6" />
+            <path d="M 110 9 C 98 5, 75 6, 68 9" stroke="#fff9c4" stroke-width="1.2" fill="none" opacity="0.8" />
+            <!-- Right Blade -->
+            <path d="M 110 9 C 125 3, 150 4, 160 9 C 150 14, 125 15, 110 9 Z" fill="#ffd52c" stroke="#14213d" stroke-width="1.6" />
+            <path d="M 110 9 C 122 5, 145 6, 152 9" stroke="#fff9c4" stroke-width="1.2" fill="none" opacity="0.8" />
+            <!-- Center Rotor Cap -->
+            <ellipse cx="110" cy="9" rx="8" ry="4" fill="#ff7043" stroke="#14213d" stroke-width="1.5" />
+            <ellipse cx="109" cy="8" rx="2.5" ry="1.2" fill="#ffffff" opacity="0.9" />
           </g>
-          <!-- Copter Shaft -->
-          <line x1="110" y1="8" x2="110" y2="24" stroke="#e0a800" stroke-width="4.5" stroke-linecap="round" />
-          <line x1="110" y1="8" x2="110" y2="24" stroke="#1a202c" stroke-width="1.5" />
+
+          <!-- Copter Shaft (Stalk) -->
+          <rect x="107.5" y="9" width="5" height="15" rx="2.5" fill="url(#stalk3D)" stroke="#14213d" stroke-width="1.6" />
+          
           <!-- Suction Base Mount -->
-          <ellipse cx="110" cy="25" rx="14" ry="5.5" fill="#ffd200" stroke="#1a202c" stroke-width="2.5" />
+          <ellipse cx="110" cy="24.5" rx="14" ry="5" fill="url(#bell3D)" stroke="#14213d" stroke-width="1.8" />
+          <ellipse cx="109" cy="23.5" rx="9" ry="2" fill="#ffffff" opacity="0.5" />
         </g>
 
-        <!-- Character Body Group (with idle floating bob) -->
-        <g class="doraemon-body-group" filter="url(#comicShadow)">
-          <!-- Left and Right Feet -->
-          <ellipse cx="85" cy="242" rx="22" ry="12" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
-          <ellipse cx="135" cy="242" rx="22" ry="12" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+        <!-- Entire Doraemon Character Body (Stationary when not scrolling) -->
+        <g class="doraemon-model" id="doraemon-model" filter="url(#softDoraemonShadow)">
+          
+          <!-- Left and Right Feet with 3D spherical gradient & subtle ground shadow -->
+          <ellipse cx="86" cy="246" rx="22" ry="13" fill="url(#hand3D)" stroke="#14213d" stroke-width="2.2" />
+          <ellipse cx="84" cy="244" rx="15" ry="7" fill="#ffffff" opacity="0.6" />
 
-          <!-- Main Chubby Blue Body -->
-          <ellipse cx="110" cy="186" rx="54" ry="48" fill="#0096E0" stroke="#1a202c" stroke-width="3.5" />
+          <ellipse cx="134" cy="246" rx="22" ry="13" fill="url(#hand3D)" stroke="#14213d" stroke-width="2.2" />
+          <ellipse cx="132" cy="244" rx="15" ry="7" fill="#ffffff" opacity="0.6" />
 
-          <!-- Round Ball Hands (Holding Banner) -->
-          <circle cx="48" cy="182" r="16" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
-          <circle cx="172" cy="182" r="16" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+          <!-- Main 3D Blue Body -->
+          <ellipse cx="110" cy="188" rx="55" ry="49" fill="url(#body3D)" stroke="#14213d" stroke-width="2.4" />
 
-          <!-- White Belly Patch -->
-          <ellipse cx="110" cy="188" rx="38" ry="34" fill="#ffffff" stroke="#1a202c" stroke-width="2.8" />
+          <!-- Subtle Shadow Under Belly -->
+          <ellipse cx="110" cy="216" rx="36" ry="12" fill="rgba(0, 45, 95, 0.18)" />
 
-          <!-- 4-D Magic Pocket (Yojigen Pocket) -->
-          <path d="M 86 186 Q 110 186 134 186 Q 134 212 110 212 Q 86 212 86 186 Z" fill="#ffffff" stroke="#1a202c" stroke-width="2.6" />
+          <!-- 3D White Belly -->
+          <ellipse cx="110" cy="189" rx="39" ry="34" fill="url(#belly3D)" stroke="#14213d" stroke-width="2" />
 
-          <!-- Head (Large Blue Circle) -->
-          <circle cx="110" cy="95" r="70" fill="#0096E0" stroke="#1a202c" stroke-width="3.5" />
+          <!-- 4-D Magic Pocket (Yojigen Pocket) with 3D Rim and Depth -->
+          <g class="yojigen-pocket">
+            <!-- Pocket Pouch -->
+            <path d="M 83 188 Q 110 188 137 188 Q 137 215 110 215 Q 83 215 83 188 Z" fill="#ffffff" stroke="#14213d" stroke-width="2" />
+            <!-- Inner Pocket Shadow Crease -->
+            <path d="M 85 188 Q 110 191 135 188" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" fill="none" />
+            <!-- Soft Pocket Pouch Ambient Shade -->
+            <path d="M 87 194 Q 110 195 133 194 Q 131 211 110 211 Q 89 211 87 194 Z" fill="rgba(180, 205, 230, 0.25)" />
+          </g>
 
-          <!-- White Face Mask -->
-          <ellipse cx="110" cy="107" rx="58" ry="50" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+          <!-- Subtle Ambient Shadow Cast by Head onto Collar/Neck -->
+          <ellipse cx="110" cy="155" rx="44" ry="9" fill="rgba(0, 30, 70, 0.28)" />
 
-          <!-- Big Cartoon Eyes -->
+          <!-- Big Round 3D Blue Head -->
+          <circle cx="110" cy="94" r="70" fill="url(#head3D)" stroke="#14213d" stroke-width="2.4" />
+
+          <!-- White Face Mask with 3D Curvature -->
+          <ellipse cx="110" cy="106" rx="58" ry="48" fill="url(#face3D)" stroke="#14213d" stroke-width="2.2" />
+
+          <!-- Large Expressive Eyes (Accurate Proportions with Glossy Highlights) -->
           <g class="doraemon-eyes">
             <!-- Left Eye -->
-            <ellipse cx="96" cy="62" rx="14" ry="19" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
-            <circle class="pupil pupil-left" cx="101" cy="64" r="5" fill="#1a202c" />
-            <circle cx="99" cy="61" r="1.8" fill="#ffffff" />
+            <ellipse cx="96" cy="62" rx="14" ry="18" fill="#ffffff" stroke="#14213d" stroke-width="2.2" />
+            <!-- Left Pupil -->
+            <ellipse cx="100.5" cy="64" rx="5" ry="6" fill="#14213d" />
+            <!-- Primary Catchlight -->
+            <circle cx="99" cy="61" r="2.2" fill="#ffffff" />
+            <!-- Secondary Subtle Catchlight -->
+            <circle cx="102" cy="66" r="1.1" fill="#ffffff" opacity="0.8" />
+
             <!-- Right Eye -->
-            <ellipse cx="124" cy="62" rx="14" ry="19" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
-            <circle class="pupil pupil-right" cx="119" cy="64" r="5" fill="#1a202c" />
-            <circle cx="117" cy="61" r="1.8" fill="#ffffff" />
+            <ellipse cx="124" cy="62" rx="14" ry="18" fill="#ffffff" stroke="#14213d" stroke-width="2.2" />
+            <!-- Right Pupil -->
+            <ellipse cx="119.5" cy="64" rx="5" ry="6" fill="#14213d" />
+            <!-- Primary Catchlight -->
+            <circle cx="118" cy="61" r="2.2" fill="#ffffff" />
+            <!-- Secondary Catchlight -->
+            <circle cx="121" cy="66" r="1.1" fill="#ffffff" opacity="0.8" />
           </g>
 
-          <!-- Red Round Nose with Shine -->
-          <circle cx="110" cy="83" r="10.5" fill="url(#noseGlow)" stroke="#1a202c" stroke-width="2.6" />
-          <ellipse cx="107" cy="79" rx="3" ry="2" fill="#ffffff" opacity="0.85" />
+          <!-- Subtle Shadow Under Nose -->
+          <ellipse cx="110" cy="93.5" rx="8" ry="3" fill="rgba(0, 20, 50, 0.16)" />
 
-          <!-- Nose-to-Mouth Line -->
-          <line x1="110" y1="93.5" x2="110" y2="128" stroke="#1a202c" stroke-width="2.8" stroke-linecap="round" />
+          <!-- 3D Shiny Red Nose with Spherical Specular Highlight -->
+          <circle cx="110" cy="83" r="10.5" fill="url(#nose3D)" stroke="#14213d" stroke-width="2" />
+          <!-- Specular Highlight Dot -->
+          <ellipse cx="106.5" cy="79.5" rx="3.5" ry="2.2" fill="#ffffff" opacity="0.95" />
+          <circle cx="113" cy="86" r="1.2" fill="#ffffff" opacity="0.4" />
 
-          <!-- Cheerful Cartoon Smile -->
-          <path d="M 72 118 Q 110 156 148 118" fill="#e12b38" stroke="#1a202c" stroke-width="3" stroke-linecap="round" />
-          <path d="M 88 132 Q 110 148 132 132" fill="#ff7582" opacity="0.9" />
+          <!-- Nose-to-Mouth Vertical Philtrum Line -->
+          <line x1="110" y1="93.5" x2="110" y2="127" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" />
 
-          <!-- Whiskers (3 on each side) -->
+          <!-- Cheerful Wide Open Smile (Accurate Depth & Shaded Tongue) -->
+          <g class="doraemon-smile">
+            <!-- Mouth Opening -->
+            <path d="M 72 118 Q 110 155 148 118" fill="#a60d1b" stroke="#14213d" stroke-width="2.4" stroke-linecap="round" />
+            <!-- Shaded Tongue with 3D highlight -->
+            <path d="M 88 132 Q 98 123 110 133 Q 122 123 132 132 Q 110 152 88 132 Z" fill="#ff7b88" />
+            <path d="M 94 135 Q 110 128 126 135" stroke="#ffa4ad" stroke-width="1.8" fill="none" opacity="0.75" />
+            <!-- Cheek Dimple Accents -->
+            <line x1="71" y1="116" x2="74" y2="121" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
+            <line x1="149" y1="116" x2="146" y2="121" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
+          </g>
+
+          <!-- Refined Whiskers (3 on each cheek, neat & tapered) -->
           <!-- Left Whiskers -->
-          <line x1="100" y1="98" x2="62" y2="92" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
-          <line x1="99" y1="108" x2="58" y2="108" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
-          <line x1="100" y1="118" x2="64" y2="124" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+          <line x1="99" y1="97" x2="60" y2="90" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
+          <line x1="98" y1="107" x2="56" y2="107" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
+          <line x1="99" y1="117" x2="62" y2="123" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
           <!-- Right Whiskers -->
-          <line x1="120" y1="98" x2="158" y2="92" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
-          <line x1="121" y1="108" x2="162" y2="108" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
-          <line x1="120" y1="118" x2="156" y2="124" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+          <line x1="121" y1="97" x2="160" y2="90" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
+          <line x1="122" y1="107" x2="164" y2="107" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
+          <line x1="121" y1="117" x2="158" y2="123" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
 
-          <!-- Red Collar -->
-          <rect x="66" y="152" width="88" height="13" rx="6.5" fill="#e12b38" stroke="#1a202c" stroke-width="3" />
+          <!-- 3D Red Collar with Cylindrical Depth -->
+          <rect x="65" y="152" width="90" height="13" rx="6.5" fill="url(#collar3D)" stroke="#14213d" stroke-width="2.2" />
+          <!-- Collar Highlight Specular Line -->
+          <line x1="72" y1="154.5" x2="148" y2="154.5" stroke="#ff8591" stroke-width="1.2" stroke-linecap="round" opacity="0.8" />
 
-          <!-- Golden Bell -->
+          <!-- 3D Metallic Yellow Bell with Realistic Slit & Eyelet -->
           <g class="doraemon-bell">
-            <circle cx="110" cy="166" r="11" fill="url(#bellGlow)" stroke="#1a202c" stroke-width="2.6" />
-            <line x1="100" y1="163" x2="120" y2="163" stroke="#1a202c" stroke-width="2" />
-            <line x1="101" y1="165" x2="119" y2="165" stroke="#1a202c" stroke-width="1.8" />
-            <circle cx="110" cy="169" r="2.8" fill="#1a202c" />
-            <line x1="110" y1="171.8" x2="110" y2="177" stroke="#1a202c" stroke-width="2" />
+            <!-- Shadow behind bell -->
+            <circle cx="110" cy="168" r="11.5" fill="rgba(0, 25, 60, 0.25)" />
+            <!-- Bell sphere -->
+            <circle cx="110" cy="166" r="11" fill="url(#bell3D)" stroke="#14213d" stroke-width="2" />
+            <!-- Specular glint on bell -->
+            <ellipse cx="106.5" cy="162.5" rx="3.5" ry="2" fill="#ffffff" opacity="0.85" />
+            <!-- Bell horizontal grooves -->
+            <line x1="100.5" y1="163" x2="119.5" y2="163" stroke="#14213d" stroke-width="1.8" />
+            <line x1="101" y1="165" x2="119" y2="165" stroke="#14213d" stroke-width="1.5" />
+            <!-- Bell center hole & slit -->
+            <circle cx="110" cy="169.5" r="2.8" fill="#14213d" />
+            <line x1="110" y1="172.3" x2="110" y2="177" stroke="#14213d" stroke-width="2" stroke-linecap="round" />
           </g>
 
-          <!-- Banner Hanging / Held by Doraemon -->
+          <!-- 3D Spherical White Ball Hands (Holding Banner) -->
+          <circle cx="46" cy="184" r="16" fill="url(#hand3D)" stroke="#14213d" stroke-width="2.2" />
+          <ellipse cx="43" cy="181" rx="8" ry="5" fill="#ffffff" opacity="0.65" />
+
+          <circle cx="174" cy="184" r="16" fill="url(#hand3D)" stroke="#14213d" stroke-width="2.2" />
+          <ellipse cx="171" cy="181" rx="8" ry="5" fill="#ffffff" opacity="0.65" />
+
+          <!-- Name Banner with Subtle Depth & Polished Design -->
           <g class="name-banner" transform="translate(0, 32)">
-            <rect x="22" y="196" width="176" height="34" rx="8" fill="#ffd200" stroke="#1a202c" stroke-width="3" />
+            <!-- Banner drop shadow -->
+            <rect x="22" y="198" width="176" height="34" rx="8" fill="rgba(0, 25, 50, 0.18)" />
+            <!-- Banner Gold Border -->
+            <rect x="22" y="196" width="176" height="34" rx="8" fill="#ffd52c" stroke="#14213d" stroke-width="2.4" />
+            <!-- Banner White Inner Surface -->
             <rect x="26" y="200" width="168" height="26" rx="5" fill="#ffffff" />
-            <text x="110" y="218" text-anchor="middle" font-family="'Baloo 2', 'Fredoka', cursive" font-weight="800" font-size="15" fill="#0096E0" letter-spacing="1">★ RISHABH PATEL ★</text>
-            <!-- Banner Ribbon Ends -->
-            <polygon points="16,204 22,196 22,230 16,222 10,213" fill="#e12b38" stroke="#1a202c" stroke-width="2" />
-            <polygon points="204,204 198,196 198,230 204,222 210,213" fill="#e12b38" stroke="#1a202c" stroke-width="2" />
+            <text x="110" y="218" text-anchor="middle" font-family="'Baloo 2', 'Fredoka', cursive" font-weight="800" font-size="14.5" fill="#0096E0" letter-spacing="1">★ RISHABH PATEL ★</text>
+            <!-- Red Ribbon Bow Ends -->
+            <polygon points="16,204 22,196 22,230 16,222 10,213" fill="#e12b38" stroke="#14213d" stroke-width="1.8" />
+            <polygon points="204,204 198,196 198,230 204,222 210,213" fill="#e12b38" stroke="#14213d" stroke-width="1.8" />
           </g>
         </g>
       </svg>
@@ -213,10 +343,10 @@
               <span class="btn-text">Open Anywhere Door to About Me</span>
               <span class="btn-sparkle">✨</span>
             </button>
-            <a href="#skills" class="cta-secondary-btn">
+            <button class="cta-secondary-btn big-light-trigger" id="hero-skills-btn" data-target="skills">
               <span>View Skills & Gadgets</span>
               <span class="arrow-icon">↓</span>
-            </a>
+            </button>
           </div>
 
           <div class="hero-hint-card">
@@ -617,6 +747,15 @@
         <div class="tunnel-center-sparkle"></div>
       </div>
     </div>
+  </div>
+
+  <!-- 3. BIG LIGHT OVERLAY (For Skills, Journey, Contact, etc.) -->
+  <div class="transition-overlay big-light-overlay" id="big-light-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Big Light Transition">
+    <div class="big-light-emitter" id="big-light-emitter">
+      <div class="big-light-core"></div>
+      <div class="big-light-halo"></div>
+    </div>
+    <div class="big-light-wash" id="big-light-wash"></div>
   </div>
 
   <script src="script.js"></script>

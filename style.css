@@ -30,10 +30,10 @@
   --ink-light: #718096;
   --border-dark: #1A202C;
   
-  /* Sky Gradients */
-  --sky-top: #4fc3f7;
-  --sky-mid: #b3e5fc;
-  --sky-bottom: #e1f5fe;
+  /* Sky Gradients (Realistic Doraemon Horizon) */
+  --sky-top: #87CEEB;
+  --sky-mid: #b2e0f9;
+  --sky-bottom: #CDEBFF;
 
   /* Typography */
   --font-heading: 'Baloo 2', 'Fredoka', cursive, sans-serif;
@@ -72,7 +72,8 @@ html {
 body {
   font-family: var(--font-body);
   color: var(--ink-black);
-  background-color: var(--sky-bottom);
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 45%, var(--sky-bottom) 100%);
+  background-attachment: fixed;
   line-height: 1.6;
   min-height: 100vh;
   position: relative;
@@ -80,7 +81,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   2. SKY & CLOUDS ANIMATED BACKGROUND
+   2. SKY & CLOUDS ANIMATED BACKGROUND (Soft & Realistic)
    -------------------------------------------------------------------------- */
 .sky-background {
   position: fixed;
@@ -88,7 +89,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 55%, var(--sky-bottom) 100%);
+  background: linear-gradient(180deg, #87CEEB 0%, #b2e0f9 45%, #CDEBFF 100%);
   z-index: -10;
   pointer-events: none;
   overflow: hidden;
@@ -97,22 +98,22 @@ body {
 /* Sunny glow */
 .sun {
   position: absolute;
-  top: 40px;
-  right: 80px;
-  width: 90px;
-  height: 90px;
-  background: radial-gradient(circle, #fff9c4 20%, var(--doraemon-yellow) 70%, rgba(255, 210, 0, 0) 100%);
+  top: 35px;
+  right: 90px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #ffffff 15%, #fff9c4 40%, rgba(255, 210, 0, 0.8) 65%, rgba(255, 210, 0, 0) 100%);
   border-radius: 50%;
-  box-shadow: 0 0 45px rgba(255, 210, 0, 0.7);
-  animation: sunPulse 6s ease-in-out infinite alternate;
+  box-shadow: 0 0 55px rgba(255, 225, 100, 0.7);
+  animation: sunPulse 7s ease-in-out infinite alternate;
 }
 
 @keyframes sunPulse {
-  0% { transform: scale(0.95); opacity: 0.85; }
-  100% { transform: scale(1.08); opacity: 1; }
+  0% { transform: scale(0.96); opacity: 0.88; }
+  100% { transform: scale(1.06); opacity: 1; }
 }
 
-/* Cartoon Fluffy Clouds */
+/* Soft, Realistic Clouds Drifting Slowly */
 .clouds-layer {
   position: absolute;
   width: 200%;
@@ -120,12 +121,15 @@ body {
 }
 
 .clouds-slow {
-  animation: driftClouds 80s linear infinite;
+  animation: driftClouds 140s linear infinite;
+  filter: blur(8px);
+  opacity: 0.88;
 }
 
 .clouds-fast {
-  animation: driftClouds 45s linear infinite;
-  opacity: 0.7;
+  animation: driftClouds 90s linear infinite;
+  filter: blur(14px);
+  opacity: 0.65;
 }
 
 @keyframes driftClouds {
@@ -135,8 +139,9 @@ body {
 
 .cloud {
   position: absolute;
-  background: var(--white);
-  border-radius: 100px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.8) 55%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 140px;
+}
   box-shadow: 0 8px 16px rgba(0, 100, 180, 0.08);
 }
 
@@ -360,32 +365,88 @@ body {
   border-top: 9px solid var(--white);
 }
 
+/* Speech bubble gentle micro-float */
 @keyframes bubbleFloat {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-5px); }
+  100% { transform: translateY(-4px); }
 }
 
-/* Propeller Spinning Animation */
-.rotor-blades {
-  transform-origin: 110px 8px;
-  animation: spinPropeller 0.12s linear infinite;
+/* Doraemon Clickable & Bounce Animation */
+.doraemon-character {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transform-origin: 110px 140px;
 }
 
-@keyframes spinPropeller {
-  0% { transform: scaleX(1) scaleY(1); }
-  50% { transform: scaleX(-0.95) scaleY(0.7); }
-  100% { transform: scaleX(1) scaleY(1); }
+.doraemon-character.is-bouncing {
+  animation: doraemonClickBounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Idle Floating Bob */
-.doraemon-body-group {
-  transform-origin: 110px 160px;
-  animation: floatBob 3s ease-in-out infinite;
+@keyframes doraemonClickBounce {
+  0% { transform: scale(1) translateY(0); }
+  35% { transform: scale(1.15) translateY(-14px); }
+  70% { transform: scale(0.96) translateY(2px); }
+  100% { transform: scale(1) translateY(0); }
 }
 
-@keyframes floatBob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(2.5deg); }
+/* Sparkles Burst on Click */
+.sparkles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0;
+}
+
+.sparkles-container.is-sparkling {
+  opacity: 1;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 1.3rem;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.sparkles-container.is-sparkling .sp-1 {
+  top: 10%;
+  left: 15%;
+  animation: sparklePop 0.6s ease-out forwards;
+}
+
+.sparkles-container.is-sparkling .sp-2 {
+  top: 20%;
+  right: 15%;
+  animation: sparklePop 0.6s ease-out 0.08s forwards;
+}
+
+.sparkles-container.is-sparkling .sp-3 {
+  bottom: 25%;
+  left: 20%;
+  animation: sparklePop 0.6s ease-out 0.12s forwards;
+}
+
+.sparkles-container.is-sparkling .sp-4 {
+  bottom: 30%;
+  right: 20%;
+  animation: sparklePop 0.6s ease-out 0.05s forwards;
+}
+
+@keyframes sparklePop {
+  0% { transform: scale(0) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1.3) rotate(35deg); opacity: 1; }
+  100% { transform: scale(0.4) rotate(70deg) translateY(-20px); opacity: 0; }
+}
+
+/* Take-copter Rotor - Rotated strictly via JavaScript when scrolling */
+.take-copter-rotor {
+  transform-origin: 110px 9px;
+  will-change: transform;
 }
 
 /* --------------------------------------------------------------------------
@@ -1513,6 +1574,74 @@ body {
 .tunnel-overlay.is-collapsing {
   opacity: 0;
   transition: opacity 0.5s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   12B. BIG LIGHT FULLSCREEN TRANSITION OVERLAY (Scale & Opacity only)
+   -------------------------------------------------------------------------- */
+.big-light-overlay {
+  background: transparent;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  overflow: hidden;
+  z-index: 9998;
+}
+
+.big-light-overlay.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.big-light-emitter {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  margin-left: -45px;
+  margin-top: -45px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  will-change: transform;
+  transform-origin: center center;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.big-light-core {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #ffffff 15%, #fffbe6 40%, #ffd700 70%, rgba(255, 215, 0, 0) 100%);
+  box-shadow: 0 0 50px 30px #ffffff, 0 0 100px 70px rgba(255, 215, 0, 0.85);
+}
+
+.big-light-wash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #ffffff 60%, #fffbe8 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease-in;
+}
+
+/* Expanding beam */
+.big-light-overlay.is-expanding .big-light-emitter {
+  transform: scale(42);
+}
+
+.big-light-overlay.is-bright .big-light-wash {
+  opacity: 1;
+}
+
+.big-light-overlay.is-fading {
+  opacity: 0;
+  transition: opacity 0.42s ease-out;
 }
 
 /* --------------------------------------------------------------------------
