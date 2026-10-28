@@ -1,59 +1,63 @@
 /* ==========================================================================
-   RISHABH PATEL - PERSONAL PORTFOLIO
-   DORAEMON THEME DESIGN SYSTEM & 60FPS ANIMATIONS
+   RISHABH PATEL - PERSONAL PORTFOLIO (DORAEMON SPECIAL EDITION)
+   60FPS HARDWARE-ACCELERATED VANILLA CSS DESIGN SYSTEM
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. ROOT DESIGN TOKENS & RESET
+   1. DESIGN TOKENS & ROOT VARIABLES
    -------------------------------------------------------------------------- */
 :root {
-  /* Doraemon Palette */
+  /* Doraemon Colors */
   --doraemon-blue: #0096E0;
   --doraemon-blue-dark: #0077b5;
-  --doraemon-blue-light: #52c8ff;
+  --doraemon-blue-deep: #005485;
   --doraemon-red: #E12B38;
-  --doraemon-red-dark: #b81c27;
   --doraemon-yellow: #FFD200;
-  --doraemon-yellow-dark: #d4a000;
+  --doraemon-yellow-dark: #d9822b;
   --white: #FFFFFF;
-  --cloud-white: rgba(255, 255, 255, 0.94);
-  
-  /* Anywhere Door (Dokodemo Door) Iconic Pink */
-  --anywhere-pink: #FF2E93;
-  --anywhere-pink-dark: #d81b60;
-  --anywhere-pink-light: #ff77b9;
-  --anywhere-wood: #ff4081;
+  --ink-black: #14213d;
+  --ink-gray: #475569;
+  --ink-light: #64748b;
+  --border-dark: #14213d;
 
-  /* Neutrals & Text */
-  --ink-black: #1A202C;
-  --ink-gray: #4A5568;
-  --ink-light: #718096;
-  --border-dark: #1A202C;
-  
-  /* Sky Gradients (Realistic Doraemon Horizon) */
+  /* Anywhere Door (Dokodemo Door) Magenta */
+  --anywhere-pink: #FF2E93;
+  --anywhere-pink-dark: #c2185b;
+
+  /* Sky Day Gradients (Default) */
   --sky-top: #87CEEB;
   --sky-mid: #b2e0f9;
   --sky-bottom: #CDEBFF;
+  --surface-bg: #FFFFFF;
+  --surface-alt: #f8fafc;
+  --card-border: #14213d;
 
   /* Typography */
   --font-heading: 'Baloo 2', 'Fredoka', cursive, sans-serif;
   --font-body: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Spacing & Radii */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-full: 9999px;
-
-  /* Shadows (Comic / Pop Style) */
+  /* Shadows (Comic / Pop) */
   --shadow-comic: 0 6px 0 var(--border-dark);
   --shadow-comic-sm: 0 3px 0 var(--border-dark);
   --shadow-comic-lg: 0 10px 0 var(--border-dark);
-  --shadow-glow: 0 0 25px rgba(0, 150, 224, 0.4);
-  --shadow-door-glow: 0 0 40px rgba(255, 46, 147, 0.6);
+}
 
-  /* Scroll Progress Variable (Set via JS or scroll timeline) */
-  --scroll-pct: 0;
+/* --------------------------------------------------------------------------
+   DARK MODE (SMALL LIGHT THEME) TOKENS
+   -------------------------------------------------------------------------- */
+body.theme-night {
+  --sky-top: #0a1128;
+  --sky-mid: #1c2541;
+  --sky-bottom: #2b3a67;
+  --surface-bg: #1e293b;
+  --surface-alt: #0f172a;
+  --ink-black: #f8fafc;
+  --ink-gray: #cbd5e1;
+  --ink-light: #94a3b8;
+  --card-border: #38bdf8;
+  --shadow-comic: 0 6px 0 #0284c7;
+  --shadow-comic-sm: 0 3px 0 #0284c7;
+  --shadow-comic-lg: 0 10px 0 #0284c7;
 }
 
 /* Base Reset */
@@ -78,10 +82,225 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  transition: background 0.4s ease, color 0.3s ease;
 }
 
 /* --------------------------------------------------------------------------
-   2. SKY & CLOUDS ANIMATED BACKGROUND (Soft & Realistic)
+   15. DORAYAKI SCROLL PROGRESS BAR (Top Bar with Bite-Marks)
+   -------------------------------------------------------------------------- */
+.dorayaki-progress-bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.4);
+  z-index: 99999;
+  pointer-events: none;
+}
+
+.dorayaki-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffd200 0%, #ff9800 70%, #e12b38 100%);
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.8);
+  transition: width 0.08s linear;
+}
+
+.dorayaki-eater-badge {
+  position: absolute;
+  top: -12px;
+  left: 0%;
+  transform: translateX(-50%);
+  transition: left 0.08s linear;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* Bite marks reveal */
+.bite {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.bite-active-1 .bite-1 { opacity: 1; }
+.bite-active-2 .bite-2 { opacity: 1; }
+.bite-active-3 .bite-3 { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   13. GADGET REVEAL LOADING SCREEN OVERLAY
+   -------------------------------------------------------------------------- */
+.loading-screen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #ffffff 10%, #87CEEB 80%, #0096E0 100%);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.loading-screen-overlay.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.loader-pocket-chest {
+  position: relative;
+  width: 280px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-pocket-graphic {
+  position: absolute;
+  bottom: 10px;
+  width: 200px;
+  height: 100px;
+  background: #ffffff;
+  border: 4px solid var(--border-dark);
+  border-radius: 0 0 100px 100px;
+  box-shadow: var(--shadow-comic-lg);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.pocket-slot-opening {
+  width: 170px;
+  height: 8px;
+  background: #e2e8f0;
+  border: 2px solid var(--border-dark);
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.loader-gadget-sign {
+  position: absolute;
+  bottom: 40px;
+  background: #ffffff;
+  border: 3.5px solid var(--border-dark);
+  border-radius: 16px;
+  padding: 16px 24px;
+  box-shadow: 0 0 35px rgba(255, 210, 0, 0.8), var(--shadow-comic);
+  transform: translateY(20px) scale(0.6);
+  opacity: 0;
+  z-index: 3;
+  animation: signPullOut 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+}
+
+@keyframes signPullOut {
+  0% { transform: translateY(40px) scale(0.4); opacity: 0; }
+  60% { transform: translateY(-70px) scale(1.08); opacity: 1; }
+  100% { transform: translateY(-60px) scale(1); opacity: 1; }
+}
+
+.sign-sparkles {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.sign-tag {
+  background: var(--doraemon-red);
+  color: var(--white);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.sign-title {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--doraemon-blue);
+  line-height: 1.1;
+}
+
+.sign-sub {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-gray);
+}
+
+.skip-loader-btn {
+  margin-top: 40px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--border-dark);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-comic-sm);
+  transition: transform 0.2s ease;
+}
+
+.skip-loader-btn:hover {
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   2. DORAYAKI CURSOR TRAIL (Desktop Only)
+   -------------------------------------------------------------------------- */
+.dorayaki-trail-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99990;
+  overflow: hidden;
+}
+
+.trail-particle {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  margin-top: -11px;
+  pointer-events: none;
+  animation: trailFade 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes trailFade {
+  0% { transform: scale(1) translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: scale(0.2) translateY(-18px) rotate(45deg); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   9. SMALL LIGHT DARK MODE SPOTLIGHT
+   -------------------------------------------------------------------------- */
+.dark-mode-spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+body.theme-night .dark-mode-spotlight {
+  opacity: 1;
+  background: radial-gradient(circle 220px at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(255, 255, 255, 0.05) 0%, rgba(10, 17, 40, 0.6) 60%, rgba(10, 17, 40, 0.85) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   SKY, SUN, MOON, AND STARS BACKGROUND
    -------------------------------------------------------------------------- */
 .sky-background {
   position: fixed;
@@ -89,35 +308,81 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(180deg, #87CEEB 0%, #b2e0f9 45%, #CDEBFF 100%);
   z-index: -10;
   pointer-events: none;
   overflow: hidden;
 }
 
-/* Sunny glow */
 .sun {
   position: absolute;
   top: 35px;
   right: 90px;
-  width: 100px;
-  height: 100px;
+  width: 95px;
+  height: 95px;
   background: radial-gradient(circle, #ffffff 15%, #fff9c4 40%, rgba(255, 210, 0, 0.8) 65%, rgba(255, 210, 0, 0) 100%);
   border-radius: 50%;
   box-shadow: 0 0 55px rgba(255, 225, 100, 0.7);
   animation: sunPulse 7s ease-in-out infinite alternate;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-@keyframes sunPulse {
-  0% { transform: scale(0.96); opacity: 0.88; }
-  100% { transform: scale(1.06); opacity: 1; }
+body.theme-night .sun {
+  opacity: 0;
+  transform: translateY(-40px);
 }
 
-/* Soft, Realistic Clouds Drifting Slowly */
+.moon {
+  position: absolute;
+  top: 40px;
+  right: 90px;
+  width: 75px;
+  height: 75px;
+  background: radial-gradient(circle at 35% 35%, #ffffff 30%, #fef3c7 70%, #fde68a 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 45px rgba(254, 240, 138, 0.8);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+body.theme-night .moon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.night-stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+body.theme-night .night-stars {
+  opacity: 1;
+}
+
+.star {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  animation: starTwinkle 3s ease-in-out infinite alternate;
+}
+
+@keyframes starTwinkle {
+  0% { transform: scale(0.6); opacity: 0.3; }
+  100% { transform: scale(1.4); opacity: 1; filter: drop-shadow(0 0 4px #ffffff); }
+}
+
+/* Soft Realistic Clouds */
 .clouds-layer {
   position: absolute;
   width: 200%;
   height: 100%;
+  transition: opacity 0.4s ease;
+}
+
+body.theme-night .clouds-layer {
+  opacity: 0.25;
 }
 
 .clouds-slow {
@@ -142,46 +407,17 @@ body {
   background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.8) 55%, rgba(255, 255, 255, 0) 100%);
   border-radius: 140px;
 }
-  box-shadow: 0 8px 16px rgba(0, 100, 180, 0.08);
-}
-
-.cloud::before, .cloud::after {
-  content: '';
-  position: absolute;
-  background: var(--white);
-  border-radius: 50%;
-}
 
 .cloud-1 { width: 180px; height: 55px; top: 12%; left: 10%; }
-.cloud-1::before { width: 70px; height: 70px; top: -35px; left: 25px; }
-.cloud-1::after { width: 50px; height: 50px; top: -22px; right: 28px; }
-
 .cloud-2 { width: 240px; height: 70px; top: 32%; left: 60%; }
-.cloud-2::before { width: 90px; height: 90px; top: -45px; left: 40px; }
-.cloud-2::after { width: 70px; height: 70px; top: -32px; right: 40px; }
-
 .cloud-3 { width: 160px; height: 50px; top: 60%; left: 25%; }
-.cloud-3::before { width: 60px; height: 60px; top: -30px; left: 25px; }
-.cloud-3::after { width: 45px; height: 45px; top: -20px; right: 25px; }
-
 .cloud-4 { width: 210px; height: 65px; top: 78%; left: 75%; }
-.cloud-4::before { width: 80px; height: 80px; top: -40px; left: 35px; }
-.cloud-4::after { width: 60px; height: 60px; top: -28px; right: 35px; }
-
 .cloud-5 { width: 140px; height: 45px; top: 22%; left: 40%; }
-.cloud-5::before { width: 55px; height: 55px; top: -25px; left: 20px; }
-.cloud-5::after { width: 40px; height: 40px; top: -18px; right: 20px; }
-
 .cloud-6 { width: 190px; height: 58px; top: 50%; left: 85%; }
-.cloud-6::before { width: 75px; height: 75px; top: -35px; left: 30px; }
-.cloud-6::after { width: 50px; height: 50px; top: -24px; right: 30px; }
-
 .cloud-7 { width: 170px; height: 52px; top: 85%; left: 15%; }
-.cloud-7::before { width: 65px; height: 65px; top: -30px; left: 25px; }
-.cloud-7::after { width: 48px; height: 48px; top: -22px; right: 25px; }
 
 /* --------------------------------------------------------------------------
-   3. NAVIGATION BAR
+   TOP NAVIGATION BAR
    -------------------------------------------------------------------------- */
 .navbar {
   position: sticky;
@@ -191,18 +427,25 @@ body {
 }
 
 .nav-container {
-  max-width: 1100px;
+  max-width: 1140px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-full);
+  border-radius: 999px;
   box-shadow: var(--shadow-comic);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 18px;
+  transition: background 0.3s ease;
+}
+
+body.theme-night .nav-container {
+  background: rgba(30, 41, 59, 0.92);
+  border-color: #38bdf8;
+  box-shadow: 0 6px 0 #0284c7;
 }
 
 .nav-brand {
@@ -231,98 +474,114 @@ body {
   95% { transform: rotate(-10deg); }
 }
 
-.dot-accent {
-  color: var(--doraemon-red);
-}
+.dot-accent { color: var(--doraemon-red); }
 
 .nav-list {
   display: flex;
   list-style: none;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-link {
   background: none;
   border: none;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink-gray);
-  padding: 8px 14px;
-  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  border-radius: 999px;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s ease;
-  display: inline-block;
 }
 
 .nav-link:hover, .nav-link:focus-visible {
   color: var(--ink-black);
-  background-color: rgba(0, 150, 224, 0.14);
+  background-color: rgba(0, 150, 224, 0.15);
   transform: translateY(-2px);
+}
+
+/* Nav Gadget Controls */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-switch-btn, .dark-mode-toggle, .audio-mute-toggle, .game-open-btn, .gadget-toggle-btn {
+  background: #ffffff;
+  border: 2px solid var(--border-dark);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--ink-black);
+  cursor: pointer;
+  box-shadow: var(--shadow-comic-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lang-switch-btn:hover, .dark-mode-toggle:hover, .audio-mute-toggle:hover, .game-open-btn:hover, .gadget-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 var(--border-dark);
+}
+
+.lang-switch-btn:active, .dark-mode-toggle:active, .game-open-btn:active, .gadget-toggle-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--border-dark);
+}
+
+.konnyaku-jelly.is-munched {
+  animation: konnyakuMunch 0.35s ease;
+}
+
+@keyframes konnyakuMunch {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.6) rotate(-20deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.game-open-btn {
+  background: var(--doraemon-yellow);
 }
 
 .gadget-toggle-btn {
   background: var(--anywhere-pink);
   color: var(--white);
-  border: 2px solid var(--border-dark);
-  border-radius: var(--radius-full);
-  padding: 8px 16px;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  box-shadow: var(--shadow-comic-sm);
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.gadget-toggle-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 5px 0 var(--border-dark);
-  background: #ff1484;
-}
-
-.gadget-toggle-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--border-dark);
 }
 
 /* --------------------------------------------------------------------------
-   4. FLYING DORAEMON ON SCROLL & SPEECH BUBBLE
+   FLYING DORAEMON ON SCROLL & EYE PUPILS / SLEEP
    -------------------------------------------------------------------------- */
 .flying-doraemon-wrapper {
   position: fixed;
   z-index: 90;
   pointer-events: auto;
-  cursor: grab;
-  /* Default position on screen */
+  cursor: pointer;
   top: 140px;
   right: calc(50% - 560px);
   width: 280px;
-  height: 240px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  /* Hardware accelerated transform container */
   transform: translate3d(0, 0, 0);
   will-change: transform;
-  transition: transform 0.12s linear;
 }
 
 @media (max-width: 1250px) {
-  .flying-doraemon-wrapper {
-    right: 20px;
-  }
+  .flying-doraemon-wrapper { right: 20px; }
 }
 
-/* Speech Bubble */
 .speech-bubble {
   background: var(--white);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   box-shadow: var(--shadow-comic-sm);
   padding: 10px 14px;
   margin-bottom: 8px;
@@ -332,14 +591,14 @@ body {
   font-weight: 600;
   color: var(--ink-black);
   text-align: center;
-  animation: bubbleFloat 2.5s ease-in-out infinite alternate;
   user-select: none;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: bubbleFloat 2.5s ease-in-out infinite alternate;
 }
 
-.speech-bubble:hover {
-  transform: scale(1.05) translateY(-3px);
-  border-color: var(--doraemon-blue);
+body.theme-night .speech-bubble {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #38bdf8;
 }
 
 .bubble-tail {
@@ -365,20 +624,92 @@ body {
   border-top: 9px solid var(--white);
 }
 
-/* Speech bubble gentle micro-float */
+body.theme-night .bubble-tail::after {
+  border-top-color: #1e293b;
+}
+
 @keyframes bubbleFloat {
   0% { transform: translateY(0); }
   100% { transform: translateY(-4px); }
 }
 
-/* Doraemon Clickable & Bounce Animation */
-.doraemon-character {
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-  transform-origin: 110px 140px;
+/* 5. Sleep Mode Zzz */
+.sleep-zzz-container {
+  position: absolute;
+  top: -20px;
+  right: 80px;
+  display: none;
+  pointer-events: none;
 }
 
+.flying-doraemon-wrapper.is-sleeping .sleep-zzz-container {
+  display: block;
+}
+
+.zzz {
+  position: absolute;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--doraemon-blue);
+  opacity: 0;
+}
+
+body.theme-night .zzz { color: #38bdf8; }
+
+.flying-doraemon-wrapper.is-sleeping .z-1 {
+  font-size: 1rem;
+  animation: floatZzz 2.4s ease-in infinite;
+}
+
+.flying-doraemon-wrapper.is-sleeping .z-2 {
+  font-size: 1.4rem;
+  animation: floatZzz 2.4s ease-in 0.8s infinite;
+}
+
+.flying-doraemon-wrapper.is-sleeping .z-3 {
+  font-size: 1.8rem;
+  animation: floatZzz 2.4s ease-in 1.6s infinite;
+}
+
+@keyframes floatZzz {
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translate(-30px, -50px) scale(1.3); opacity: 0; }
+}
+
+/* Sleeping posture */
+.flying-doraemon-wrapper.is-sleeping .doraemon-character {
+  transform: translateY(12px) rotate(14deg);
+  transition: transform 0.4s ease;
+}
+
+/* 1. Eye Blinking */
+.doraemon-eyes {
+  transform-origin: 110px 62px;
+}
+
+.doraemon-eyes.is-blinking {
+  animation: eyeBlink 0.16s ease-in-out;
+}
+
+@keyframes eyeBlink {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.08); }
+}
+
+/* 7. Mouse Panic state */
+.flying-doraemon-wrapper.is-panicking {
+  animation: panicShake 0.12s linear infinite;
+  filter: saturate(0.2) drop-shadow(0 0 12px rgba(225, 43, 56, 0.8));
+}
+
+@keyframes panicShake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-4px, 2px) rotate(-4deg); }
+  75% { transform: translate(4px, -2px) rotate(4deg); }
+}
+
+/* Doraemon Click Bounce */
 .doraemon-character.is-bouncing {
   animation: doraemonClickBounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -390,52 +721,22 @@ body {
   100% { transform: scale(1) translateY(0); }
 }
 
-/* Sparkles Burst on Click */
+/* Sparkles Burst */
 .sparkles-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 100;
   opacity: 0;
 }
 
-.sparkles-container.is-sparkling {
-  opacity: 1;
-}
+.sparkles-container.is-sparkling { opacity: 1; }
+.sparkle { position: absolute; font-size: 1.3rem; opacity: 0; transform: scale(0); }
 
-.sparkle {
-  position: absolute;
-  font-size: 1.3rem;
-  opacity: 0;
-  transform: scale(0);
-}
-
-.sparkles-container.is-sparkling .sp-1 {
-  top: 10%;
-  left: 15%;
-  animation: sparklePop 0.6s ease-out forwards;
-}
-
-.sparkles-container.is-sparkling .sp-2 {
-  top: 20%;
-  right: 15%;
-  animation: sparklePop 0.6s ease-out 0.08s forwards;
-}
-
-.sparkles-container.is-sparkling .sp-3 {
-  bottom: 25%;
-  left: 20%;
-  animation: sparklePop 0.6s ease-out 0.12s forwards;
-}
-
-.sparkles-container.is-sparkling .sp-4 {
-  bottom: 30%;
-  right: 20%;
-  animation: sparklePop 0.6s ease-out 0.05s forwards;
-}
+.sparkles-container.is-sparkling .sp-1 { top: 10%; left: 15%; animation: sparklePop 0.6s ease-out forwards; }
+.sparkles-container.is-sparkling .sp-2 { top: 20%; right: 15%; animation: sparklePop 0.6s ease-out 0.08s forwards; }
+.sparkles-container.is-sparkling .sp-3 { bottom: 25%; left: 20%; animation: sparklePop 0.6s ease-out 0.12s forwards; }
+.sparkles-container.is-sparkling .sp-4 { bottom: 30%; right: 20%; animation: sparklePop 0.6s ease-out 0.05s forwards; }
 
 @keyframes sparklePop {
   0% { transform: scale(0) rotate(0deg); opacity: 0; }
@@ -443,14 +744,35 @@ body {
   100% { transform: scale(0.4) rotate(70deg) translateY(-20px); opacity: 0; }
 }
 
-/* Take-copter Rotor - Rotated strictly via JavaScript when scrolling */
+/* Take-copter Rotor */
 .take-copter-rotor {
   transform-origin: 110px 9px;
   will-change: transform;
 }
 
 /* --------------------------------------------------------------------------
-   5. LAYOUT & GENERAL SECTIONS
+   7. MOUSE PANIC EASTER EGG (Runs across bottom)
+   -------------------------------------------------------------------------- */
+.panic-mouse {
+  position: fixed;
+  bottom: 12px;
+  left: -80px;
+  z-index: 9990;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.panic-mouse.is-running {
+  animation: mouseRun 5s linear forwards;
+}
+
+@keyframes mouseRun {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 140px)); }
+}
+
+/* --------------------------------------------------------------------------
+   SECTIONS & LAYOUT SYSTEM
    -------------------------------------------------------------------------- */
 .container {
   max-width: 1080px;
@@ -471,14 +793,13 @@ body {
 .section-tag {
   display: inline-block;
   background: var(--doraemon-yellow);
-  color: var(--ink-black);
+  color: #14213d;
   border: 2px solid var(--border-dark);
-  border-radius: var(--radius-full);
+  border-radius: 999px;
   padding: 4px 14px;
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 0.85rem;
-  letter-spacing: 0.5px;
   box-shadow: var(--shadow-comic-sm);
   margin-bottom: 12px;
 }
@@ -492,10 +813,7 @@ body {
   margin-bottom: 12px;
 }
 
-.text-blue {
-  color: var(--doraemon-blue);
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.08);
-}
+.text-blue { color: var(--doraemon-blue); }
 
 .section-lead {
   font-size: 1.15rem;
@@ -505,7 +823,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   6. HERO SECTION
+   1. HERO SECTION
    -------------------------------------------------------------------------- */
 .hero-section {
   padding-top: 60px;
@@ -527,9 +845,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--white);
+  background: var(--surface-bg);
   border: 2px solid var(--border-dark);
-  border-radius: var(--radius-full);
+  border-radius: 999px;
   padding: 6px 16px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -564,7 +882,6 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-  filter: drop-shadow(2px 3px 0 rgba(0, 0, 0, 0.1));
 }
 
 .hero-subtitle {
@@ -577,7 +894,7 @@ body {
 .nst-tag {
   background: rgba(255, 210, 0, 0.35);
   border: 2px solid var(--border-dark);
-  border-radius: var(--radius-sm);
+  border-radius: 8px;
   padding: 2px 10px;
   color: var(--ink-black);
 }
@@ -600,7 +917,7 @@ body {
   background: var(--anywhere-pink);
   color: var(--white);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   padding: 14px 26px;
   font-family: var(--font-heading);
   font-weight: 800;
@@ -611,8 +928,6 @@ body {
   gap: 10px;
   box-shadow: var(--shadow-comic);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  overflow: hidden;
 }
 
 .cta-door-btn:hover {
@@ -621,48 +936,32 @@ body {
   background: #ff1484;
 }
 
-.cta-door-btn:active {
-  transform: translateY(2px);
-  box-shadow: var(--shadow-comic-sm);
-}
-
-.btn-sparkle {
-  display: inline-block;
-  animation: sparkleAnim 2s infinite ease-in-out;
-}
-
-@keyframes sparkleAnim {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.3) rotate(20deg); }
-}
-
 .cta-secondary-btn {
-  background: var(--white);
+  background: var(--surface-bg);
   color: var(--ink-black);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   padding: 14px 22px;
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.05rem;
-  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
   box-shadow: var(--shadow-comic);
   transition: all 0.2s ease;
 }
 
 .cta-secondary-btn:hover {
   transform: translateY(-3px);
-  background-color: #f8fafc;
   box-shadow: var(--shadow-comic-lg);
 }
 
 .hero-hint-card {
   background: rgba(255, 255, 255, 0.85);
   border: 2px dashed var(--doraemon-blue);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   padding: 12px 18px;
   display: flex;
   align-items: center;
@@ -672,173 +971,68 @@ body {
   max-width: 540px;
 }
 
-.hint-bell {
-  font-size: 1.5rem;
-  flex-shrink: 0;
+body.theme-night .hero-hint-card {
+  background: rgba(30, 41, 59, 0.85);
+  border-color: #38bdf8;
 }
 
-/* Hero Cartoon Card & Mini Door Preview */
-.hero-visual {
-  display: flex;
-  justify-content: center;
-}
+.hint-bell { font-size: 1.5rem; flex-shrink: 0; }
+
+.hero-visual { display: flex; justify-content: center; }
 
 .pocket-card {
-  background: var(--white);
+  background: var(--surface-bg);
   border: 4px solid var(--border-dark);
-  border-radius: var(--radius-lg);
+  border-radius: 24px;
   box-shadow: var(--shadow-comic-lg);
   padding: 24px;
   width: 320px;
-  position: relative;
   text-align: center;
   transform: rotate(-2deg);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.pocket-card:hover {
-  transform: rotate(0deg) scale(1.03);
-}
+.pocket-card:hover { transform: rotate(0deg) scale(1.03); }
 
 .mini-door-preview {
   background: #fce4ec;
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   padding: 24px 16px;
   cursor: pointer;
   margin-bottom: 18px;
-  position: relative;
   transition: all 0.25s ease;
 }
 
-.mini-door-preview:hover {
-  background: #f8bbd0;
-  transform: scale(1.02);
-}
+.door-exterior { width: 130px; height: 200px; margin: 0 auto; perspective: 600px; }
+.door-frame { width: 100%; height: 100%; background: #d81b60; border: 3px solid var(--border-dark); border-radius: 8px 8px 0 0; padding: 8px; position: relative; }
+.door-leaf { width: 100%; height: 100%; background: var(--anywhere-pink); border: 2px solid var(--border-dark); border-radius: 4px; display: flex; flex-direction: column; justify-content: space-around; padding: 10px; transform-origin: left center; transition: transform 0.4s ease; }
+.mini-door-preview:hover .door-leaf { transform: rotateY(-35deg); }
+.door-panel { background: #e91e63; border: 2px solid rgba(0, 0, 0, 0.2); border-radius: 4px; height: 40%; }
+.door-handle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: var(--doraemon-yellow); border: 2px solid var(--border-dark); border-radius: 50%; }
+.door-tag { display: inline-block; background: var(--anywhere-pink); color: var(--white); border: 2px solid var(--border-dark); border-radius: 999px; padding: 4px 12px; font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; }
 
-/* Pure CSS Dokodemo Door Illustration */
-.door-exterior {
-  width: 130px;
-  height: 200px;
-  margin: 0 auto;
-  perspective: 600px;
-}
-
-.door-frame {
-  width: 100%;
-  height: 100%;
-  background: var(--anywhere-pink-dark);
-  border: 3px solid var(--border-dark);
-  border-radius: 8px 8px 0 0;
-  padding: 8px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
-  position: relative;
-}
-
-.door-leaf {
-  width: 100%;
-  height: 100%;
-  background: var(--anywhere-pink);
-  border: 2px solid var(--border-dark);
-  border-radius: 4px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 10px;
-  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.4);
-  transform-origin: left center;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.mini-door-preview:hover .door-leaf {
-  transform: rotateY(-35deg);
-}
-
-.door-panel {
-  background: #e91e63;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  height: 40%;
-}
-
-.door-handle {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  background: var(--doraemon-yellow);
-  border: 2px solid var(--border-dark);
-  border-radius: 50%;
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
-}
-
-.door-tag {
-  display: inline-block;
-  background: var(--anywhere-pink);
-  color: var(--white);
-  border: 2px solid var(--border-dark);
-  border-radius: var(--radius-full);
-  padding: 4px 12px;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-.pocket-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 700;
-  color: var(--doraemon-blue-dark);
-  font-size: 0.9rem;
-}
-
-.cartoon-ground {
-  width: 100%;
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  line-height: 0;
-}
-
-.cartoon-ground svg {
-  width: 100%;
-  height: 80px;
-  display: block;
-}
+.cartoon-ground { width: 100%; position: absolute; bottom: -2px; left: 0; line-height: 0; }
+.cartoon-ground svg { width: 100%; height: 80px; display: block; fill: var(--surface-bg); }
 
 /* --------------------------------------------------------------------------
-   7. ABOUT SECTION
+   2. ABOUT SECTION & 4. GADGET SKILLS
    -------------------------------------------------------------------------- */
 .about-section {
-  background: var(--white);
+  background: var(--surface-bg);
   border-top: 4px solid var(--border-dark);
   border-bottom: 4px solid var(--border-dark);
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 0.9fr;
-  gap: 32px;
-}
+.about-grid { display: grid; grid-template-columns: 1.4fr 0.9fr; gap: 32px; }
 
 .about-card {
-  background: #fdfdfd;
+  background: var(--surface-alt);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-lg);
+  border-radius: 24px;
   box-shadow: var(--shadow-comic);
   padding: 32px;
   position: relative;
-}
-
-.main-bio-card {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
 }
 
 .card-comic-corner {
@@ -848,56 +1042,95 @@ body {
   background: var(--doraemon-red);
   color: var(--white);
   border: 2px solid var(--border-dark);
-  border-radius: var(--radius-sm);
+  border-radius: 8px;
   padding: 2px 10px;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 0.82rem;
-  letter-spacing: 1px;
 }
 
-.card-title {
-  font-family: var(--font-heading);
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: var(--ink-black);
-}
+.card-title { font-family: var(--font-heading); font-size: 1.85rem; font-weight: 800; margin-bottom: 14px; }
 
-.passion-list {
-  list-style: none;
+/* 4. Gadget Skills Badges & Tooltips */
+.gadget-skills-container { margin-top: 24px; }
+.gadget-skills-title { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; margin-bottom: 14px; }
+.gadget-skills-list { display: flex; flex-direction: column; gap: 10px; }
+
+.gadget-skill-badge {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 6px;
-}
-
-.passion-list li {
-  display: flex;
-  gap: 14px;
-  background: #f8fafc;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-bg);
   border: 2px solid var(--border-dark);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  align-items: flex-start;
+  border-radius: 16px;
+  padding: 10px 14px;
+  cursor: pointer;
+  box-shadow: var(--shadow-comic-sm);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.passion-icon {
-  font-size: 1.6rem;
+.gadget-skill-badge:hover, .gadget-skill-badge:focus {
+  transform: translateX(6px);
+  background: #f1f5f9;
+}
+
+body.theme-night .gadget-skill-badge:hover { background: #334155; }
+
+.gadget-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 2px solid var(--border-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
-/* Gulliver Tunnel Trigger Button */
-.gulliver-cta-box {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 2px dashed #cbd5e1;
+.bg-yellow { background: #ffe082; }
+.bg-cyan { background: #bae6fd; }
+.bg-pink { background: #fbcfe8; }
+.bg-indigo { background: #c7d2fe; }
+.bg-emerald { background: #a7f3d0; }
+
+.gadget-text strong { font-size: 1rem; color: var(--ink-black); }
+.gadget-text span { font-size: 0.85rem; color: var(--ink-light); }
+
+.gadget-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: #14213d;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: normal;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 10;
 }
+
+.gadget-skill-badge:hover .gadget-tooltip,
+.gadget-skill-badge:focus .gadget-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.gulliver-cta-box { margin-top: 24px; padding-top: 18px; border-top: 2px dashed #cbd5e1; }
 
 .gulliver-btn {
   background: linear-gradient(135deg, #4338ca 0%, #6366f1 50%, #38bdf8 100%);
   color: var(--white);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   padding: 13px 22px;
   font-family: var(--font-heading);
   font-weight: 800;
@@ -907,35 +1140,12 @@ body {
   align-items: center;
   gap: 10px;
   box-shadow: var(--shadow-comic-sm);
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.2s ease;
 }
 
-.gulliver-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-comic);
-}
+.gulliver-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-comic); }
 
-.gulliver-btn:active {
-  transform: translateY(2px);
-}
-
-.tunnel-ring-icon {
-  font-size: 1.3rem;
-  display: inline-block;
-  animation: spinSlow 4s linear infinite;
-}
-
-@keyframes spinSlow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* About Sidebar Cards */
-.about-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
+.about-sidebar { display: flex; flex-direction: column; gap: 18px; }
 
 .stat-card {
   padding: 18px 22px;
@@ -945,9 +1155,7 @@ body {
   transition: transform 0.2s ease;
 }
 
-.stat-card:hover {
-  transform: translateX(4px);
-}
+.stat-card:hover { transform: translateX(4px); }
 
 .stat-icon {
   font-size: 2rem;
@@ -962,26 +1170,167 @@ body {
   flex-shrink: 0;
 }
 
-.stat-info h4 {
+.stat-info h4 { font-family: var(--font-heading); font-size: 0.85rem; color: var(--ink-light); text-transform: uppercase; }
+.stat-info p { font-weight: 700; font-size: 1rem; color: var(--ink-black); }
+
+/* --------------------------------------------------------------------------
+   3. 4-D POCKET PROJECTS SECTION
+   -------------------------------------------------------------------------- */
+.projects-section {
+  background: var(--sky-bottom);
+}
+
+.pocket-stage-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.interactive-pocket-chest {
+  cursor: pointer;
+  user-select: none;
+  perspective: 800px;
+}
+
+.pocket-chest-body {
+  width: 220px;
+  height: 140px;
+  background: var(--doraemon-blue);
+  border: 4px solid var(--border-dark);
+  border-radius: 0 0 110px 110px;
+  box-shadow: var(--shadow-comic-lg);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.interactive-pocket-chest:hover .pocket-chest-body {
+  transform: scale(1.05) translateY(-4px);
+}
+
+.pocket-white-belly {
+  width: 170px;
+  height: 110px;
+  background: #ffffff;
+  border: 3px solid var(--border-dark);
+  border-radius: 0 0 85px 85px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+}
+
+.pocket-curved-pouch {
+  width: 130px;
+  height: 65px;
+  background: #f8fafc;
+  border: 3px solid var(--border-dark);
+  border-radius: 0 0 65px 65px;
+  position: relative;
+  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pocket-lip {
+  position: absolute;
+  top: -4px;
+  left: -2px;
+  right: -2px;
+  height: 6px;
+  background: #e2e8f0;
+  border: 2px solid var(--border-dark);
+  border-radius: 4px;
+}
+
+.pocket-click-hint {
   font-family: var(--font-heading);
-  font-size: 0.95rem;
-  color: var(--ink-light);
-  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--doraemon-blue);
   letter-spacing: 0.5px;
 }
 
-.stat-info p {
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--ink-black);
+/* Pop-out Project Cards */
+.project-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  width: 100%;
 }
 
-/* --------------------------------------------------------------------------
-   8. SKILLS SECTION
-   -------------------------------------------------------------------------- */
-.skills-section {
-  background: var(--sky-bottom);
+.project-gadget-card {
+  background: var(--surface-bg);
+  border: 3.5px solid var(--border-dark);
+  border-radius: 24px;
+  box-shadow: var(--shadow-comic);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  opacity: 0;
+  transform: translateY(40px) scale(0.85);
+  transition: all 0.3s ease;
 }
+
+.project-gadget-card.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.project-gadget-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-comic-lg);
+}
+
+.card-gadget-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: var(--doraemon-yellow);
+  color: #14213d;
+  border: 2px solid var(--border-dark);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.78rem;
+}
+
+.card-header-icon { font-size: 2.2rem; margin-bottom: 12px; }
+.project-title { font-family: var(--font-heading); font-size: 1.45rem; font-weight: 800; margin-bottom: 10px; color: var(--ink-black); }
+.project-desc { font-size: 0.95rem; color: var(--ink-gray); margin-bottom: 20px; flex-grow: 1; }
+
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.project-tags span { background: #f1f5f9; border: 1.5px solid var(--border-dark); border-radius: 999px; padding: 2px 10px; font-size: 0.78rem; font-weight: 700; color: #14213d; }
+
+.project-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--doraemon-blue);
+  color: var(--white);
+  border: 2.5px solid var(--border-dark);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  box-shadow: var(--shadow-comic-sm);
+  transition: all 0.2s ease;
+}
+
+.project-link-btn:hover { background: #0081c2; transform: translateY(-2px); }
+
+/* --------------------------------------------------------------------------
+   4. SKILLS SECTION
+   -------------------------------------------------------------------------- */
+.skills-section { background: var(--surface-bg); }
 
 .skills-grid {
   display: grid;
@@ -990,27 +1339,23 @@ body {
 }
 
 .skill-card {
-  background: var(--white);
+  background: var(--surface-alt);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-lg);
+  border-radius: 24px;
   box-shadow: var(--shadow-comic);
   padding: 28px 22px;
   display: flex;
   flex-direction: column;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
+  transition: all 0.25s ease;
 }
 
-.skill-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-comic-lg);
-}
+.skill-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-comic-lg); }
 
 .skill-icon-wrap {
   width: 60px;
   height: 60px;
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1023,67 +1368,27 @@ body {
 .github-color { background: #cfd8dc; }
 .ai-color { background: #b3e5fc; }
 
-.skill-emoji {
-  font-size: 2rem;
-}
+.skill-emoji { font-size: 2rem; }
+.skill-badge-level { font-family: var(--font-heading); font-size: 0.78rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-bottom: 4px; }
+.skill-badge-level.special { color: var(--doraemon-red); }
+.skill-name { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; color: var(--ink-black); }
+.skill-desc { font-size: 0.95rem; color: var(--ink-gray); margin-bottom: 18px; flex-grow: 1; }
 
-.skill-badge-level {
-  font-family: var(--font-heading);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--ink-light);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.skill-badge-level.special {
-  color: var(--doraemon-red);
-}
-
-.skill-name {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: var(--ink-black);
-}
-
-.skill-desc {
-  font-size: 0.95rem;
-  color: var(--ink-gray);
-  margin-bottom: 18px;
-  flex-grow: 1;
-}
-
-.skill-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.skill-tags span {
-  background: #f1f5f9;
-  border: 1.5px solid var(--border-dark);
-  border-radius: var(--radius-full);
-  padding: 2px 10px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--ink-black);
-}
-
-.highlight-skill {
-  background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
-  border-color: #059669;
-}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-tags span { background: #f1f5f9; border: 1.5px solid var(--border-dark); border-radius: 999px; padding: 2px 10px; font-size: 0.78rem; font-weight: 700; color: #14213d; }
 
 /* --------------------------------------------------------------------------
-   9. TIMELINE / JOURNEY SECTION
+   10. TIME MACHINE JOURNEY TIMELINE
    -------------------------------------------------------------------------- */
 .journey-section {
-  background: var(--white);
+  background: var(--surface-bg);
   border-top: 4px solid var(--border-dark);
   border-bottom: 4px solid var(--border-dark);
+}
+
+.time-machine-corridor {
+  position: relative;
+  perspective: 1000px;
 }
 
 .timeline {
@@ -1107,7 +1412,8 @@ body {
   position: relative;
   display: flex;
   gap: 24px;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .timeline-dot {
@@ -1129,81 +1435,150 @@ body {
 }
 
 .timeline-card {
-  background: #f8fafc;
+  background: var(--surface-alt);
   border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   box-shadow: var(--shadow-comic);
   padding: 22px 26px;
   flex-grow: 1;
 }
 
-.current-phase {
-  background: #eff6ff;
-  border-color: var(--doraemon-blue);
-}
+.current-phase { background: rgba(0, 150, 224, 0.1); border-color: var(--doraemon-blue); }
+.future-phase { background: rgba(16, 185, 129, 0.08); border-color: #10b981; }
 
-.timeline-date {
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: var(--doraemon-red);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.timeline-title {
-  font-family: var(--font-heading);
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--ink-black);
-  margin: 4px 0 8px 0;
-}
+.timeline-date { font-family: var(--font-heading); font-size: 0.85rem; font-weight: 800; color: var(--doraemon-red); text-transform: uppercase; }
+.timeline-title { font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: var(--ink-black); margin: 4px 0 8px 0; }
 
 /* --------------------------------------------------------------------------
-   10. CONTACT SECTION & FOOTER
+   14. DOKODEMO MAIL CONTACT FORM & CONNECT
    -------------------------------------------------------------------------- */
-.contact-section {
-  background: var(--sky-bottom);
-}
+.contact-section { background: var(--sky-bottom); }
 
 .contact-box {
-  background: var(--white);
+  background: var(--surface-bg);
   border: 4px solid var(--border-dark);
-  border-radius: var(--radius-lg);
+  border-radius: 24px;
   box-shadow: var(--shadow-comic-lg);
   padding: 44px;
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 36px;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.contact-text h3 {
+.dokodemo-mail-container h3 { font-family: var(--font-heading); font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+.dokodemo-mail-container p { color: var(--ink-gray); margin-bottom: 20px; }
+
+.dokodemo-form { display: flex; flex-direction: column; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-family: var(--font-heading); font-weight: 700; font-size: 0.92rem; color: var(--ink-black); }
+
+.form-input {
+  background: var(--surface-alt);
+  border: 2.5px solid var(--border-dark);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink-black);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus { border-color: var(--doraemon-blue); }
+
+.submit-plane-btn {
+  background: var(--anywhere-pink);
+  color: var(--white);
+  border: 3px solid var(--border-dark);
+  border-radius: 14px;
+  padding: 12px 22px;
   font-family: var(--font-heading);
-  font-size: 2rem;
   font-weight: 800;
-  margin-bottom: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-comic-sm);
+  transition: all 0.2s ease;
 }
 
-.contact-text p {
-  color: var(--ink-gray);
-  font-size: 1.1rem;
-  margin-bottom: 24px;
+.submit-plane-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-comic); background: #ff1484; }
+
+/* Plane Flying into Anywhere Door Scene */
+.mail-portal-scene {
+  position: relative;
+  height: 60px;
+  margin-top: 14px;
+  display: none;
 }
 
-.contact-links {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.mini-mail-door {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  width: 34px;
+  height: 50px;
+  background: #d81b60;
+  border: 2px solid var(--border-dark);
+  border-radius: 4px;
+  perspective: 200px;
 }
+
+.mail-door-leaf {
+  width: 100%;
+  height: 100%;
+  background: var(--anywhere-pink);
+  border: 1.5px solid var(--border-dark);
+  transform-origin: left center;
+  transform: rotateY(-60deg);
+}
+
+.paper-plane {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  font-size: 1.6rem;
+  opacity: 0;
+}
+
+.mail-portal-scene.is-flying .paper-plane {
+  animation: planeFlyThroughDoor 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes planeFlyThroughDoor {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  70% { transform: translate(160px, -6px) scale(0.9) rotate(-15deg); opacity: 1; }
+  100% { transform: translate(220px, 0) scale(0.1) rotate(20deg); opacity: 0; }
+}
+
+.mail-sent-toast {
+  margin-top: 14px;
+  background: #10b981;
+  color: #ffffff;
+  border: 2px solid var(--border-dark);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: none;
+  box-shadow: var(--shadow-comic-sm);
+}
+
+.mail-sent-toast.is-shown { display: block; animation: toastPop 0.3s ease-out; }
+@keyframes toastPop { 0% { transform: translateY(10px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+
+.contact-right-panel { display: flex; flex-direction: column; gap: 24px; }
+.contact-links { display: flex; flex-direction: column; gap: 12px; }
 
 .contact-pill {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #f8fafc;
+  background: var(--surface-alt);
   border: 2.5px solid var(--border-dark);
-  border-radius: var(--radius-full);
+  border-radius: 999px;
   padding: 10px 20px;
   text-decoration: none;
   font-weight: 700;
@@ -1213,42 +1588,10 @@ body {
   width: fit-content;
 }
 
-.contact-pill:hover {
-  transform: translateX(6px);
-  background-color: #f1f5f9;
-  box-shadow: var(--shadow-comic);
-}
-
-.pill-icon {
-  font-size: 1.3rem;
-}
-
-.tunnel-callout {
-  background: #f1f5f9;
-  border: 3px solid var(--border-dark);
-  border-radius: var(--radius-md);
-  padding: 28px;
-  text-align: center;
-}
-
-.tunnel-callout h4 {
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.tunnel-callout p {
-  font-size: 0.95rem;
-  color: var(--ink-gray);
-  margin-bottom: 18px;
-}
-
-.large-tunnel-btn {
-  width: 100%;
-  justify-content: center;
-  font-size: 1.05rem;
-}
+.contact-pill:hover { transform: translateX(6px); box-shadow: var(--shadow-comic); }
+.tunnel-callout { background: var(--surface-alt); border: 3px solid var(--border-dark); border-radius: 16px; padding: 24px; text-align: center; }
+.tunnel-callout h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800; margin-bottom: 8px; }
+.large-tunnel-btn { width: 100%; justify-content: center; }
 
 .footer {
   text-align: center;
@@ -1259,21 +1602,173 @@ body {
   font-size: 0.92rem;
 }
 
-.footer-note {
-  margin-top: 4px;
-  font-size: 0.85rem;
-  color: var(--ink-light);
+/* --------------------------------------------------------------------------
+   6. DORAYAKI CATCHING MINI-GAME MODAL
+   -------------------------------------------------------------------------- */
+.mini-game-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
+.mini-game-modal.is-active { opacity: 1; pointer-events: auto; }
+
+.game-window {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border: 4px solid var(--border-dark);
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-header {
+  background: var(--doraemon-blue);
+  color: #ffffff;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--border-dark);
+}
+
+.game-title { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+.game-score-board { font-family: var(--font-heading); font-weight: 800; font-size: 1.1rem; background: rgba(0, 0, 0, 0.2); padding: 4px 12px; border-radius: 999px; }
+.game-close-btn { background: none; border: none; font-size: 1.4rem; color: #ffffff; cursor: pointer; }
+
+.game-arena {
+  height: 380px;
+  background: linear-gradient(180deg, #87CEEB 0%, #CDEBFF 100%);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+.falling-dorayaki {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  font-size: 1.8rem;
+}
+
+.player-catcher {
+  position: absolute;
+  bottom: 10px;
+  left: 200px;
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  pointer-events: none;
+  transition: transform 0.05s linear;
+}
+
+.game-victory-banner {
+  position: absolute;
+  inset: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid var(--border-dark);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.game-victory-banner.is-won { opacity: 1; pointer-events: auto; transform: scale(1); }
+.confetti-burst { font-size: 1.8rem; margin-bottom: 8px; }
+.hire-badge-tag { font-family: var(--font-heading); font-size: 0.82rem; font-weight: 800; color: var(--doraemon-blue); }
+.hire-badge-box { background: #fef08a; border: 2.5px solid var(--border-dark); border-radius: 12px; padding: 12px; margin: 12px 0; }
+.hire-badge-box h4 { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: #b45309; }
+
+.game-footer {
+  padding: 12px 18px;
+  background: #f8fafc;
+  border-top: 3px solid var(--border-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-hint { font-size: 0.8rem; color: var(--ink-light); }
+
+.game-btn {
+  background: var(--doraemon-yellow);
+  color: #14213d;
+  border: 2.5px solid var(--border-dark);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-comic-sm);
+  transition: all 0.15s ease;
+}
+
+.game-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-comic); }
+
 /* --------------------------------------------------------------------------
-   11. ANYWHERE DOOR FULLSCREEN 3D TRANSITION OVERLAY
+   12. KONAMI CODE SECRET MODAL
+   -------------------------------------------------------------------------- */
+.konami-secret-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10005;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.konami-secret-modal.is-active { opacity: 1; pointer-events: auto; }
+
+.konami-modal-content {
+  background: #ffffff;
+  border: 4px solid var(--border-dark);
+  border-radius: 24px;
+  padding: 36px 28px;
+  max-width: 460px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  animation: konamiPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes konamiPop { 0% { transform: scale(0.6); } 100% { transform: scale(1); } }
+.rocket-fireworks { font-size: 2.2rem; margin-bottom: 12px; }
+.konami-code-tag { font-family: var(--font-heading); font-weight: 800; font-size: 0.85rem; color: var(--doraemon-red); }
+.konami-message-card { background: #eff6ff; border: 2.5px dashed var(--doraemon-blue); border-radius: 14px; padding: 18px; margin: 18px 0; font-size: 1.05rem; font-weight: 700; color: #14213d; }
+
+/* --------------------------------------------------------------------------
+   TRANSITION OVERLAYS (Door, Tunnel, Big Light)
    -------------------------------------------------------------------------- */
 .transition-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -1283,262 +1778,37 @@ body {
   transition: opacity 0.3s ease;
 }
 
-.door-overlay {
-  background: radial-gradient(circle at center, rgba(255, 230, 245, 0.96) 0%, rgba(255, 46, 147, 0.94) 85%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
+/* Door Overlay */
+.door-overlay { background: radial-gradient(circle at center, rgba(255, 230, 245, 0.96) 0%, rgba(255, 46, 147, 0.94) 85%); backdrop-filter: blur(10px); }
+.door-scene { perspective: 1200px; display: flex; flex-direction: column; align-items: center; transform: scale(0.85); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.door-status-text { font-family: var(--font-heading); font-weight: 800; font-size: 1.4rem; color: var(--white); text-shadow: 2px 2px 0 var(--border-dark); margin-bottom: 24px; }
+.anywhere-door-frame { width: 240px; height: 380px; position: relative; transform-style: preserve-3d; }
+.door-architrave, .door-base { position: absolute; height: 20px; background: #d81b60; border: 3.5px solid var(--border-dark); border-radius: 6px; z-index: 5; }
+.door-architrave { top: -16px; left: -12px; right: -12px; }
+.door-base { bottom: -16px; left: -16px; right: -16px; }
+.door-portal { width: 100%; height: 100%; background: #d81b60; border: 4px solid var(--border-dark); border-radius: 8px; padding: 10px; position: relative; transform-style: preserve-3d; }
+.doorway-void { width: 100%; height: 100%; background: radial-gradient(circle at center, #ffffff 10%, #fff9c4 40%, #ff80ab 100%); border: 2px solid var(--border-dark); border-radius: 4px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.light-rays { position: absolute; width: 200%; height: 200%; background: repeating-conic-gradient(from 0deg, rgba(255, 255, 255, 0.8) 0deg 15deg, rgba(255, 210, 0, 0.4) 15deg 30deg); animation: rotateLight 12s linear infinite; }
+@keyframes rotateLight { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.light-core { position: absolute; width: 140px; height: 140px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 60px 40px #ffffff, 0 0 100px 70px #ffd200; }
+.destination-preview { position: relative; z-index: 3; }
+.dest-badge { background: rgba(0, 0, 0, 0.7); color: var(--white); border-radius: 999px; padding: 6px 14px; font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; }
+.door-leaf-3d { position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; background: var(--anywhere-pink); border: 3.5px solid var(--border-dark); border-radius: 5px; transform-origin: left center; transform-style: preserve-3d; transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1); z-index: 10; }
+.door-face { position: absolute; width: 100%; height: 100%; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+.panel-recess { background: #e91e63; border: 3px solid var(--border-dark); border-radius: 6px; height: 42%; }
+.door-knob { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #fff9c4, var(--doraemon-yellow) 60%, #b8860b 100%); border: 2.5px solid var(--border-dark); border-radius: 50%; }
+.door-overlay.is-active { opacity: 1; pointer-events: auto; }
+.door-overlay.is-active .door-scene { transform: scale(1); }
+.door-overlay.is-opening #swinging-door-leaf { transform: rotateY(-112deg); }
+.door-overlay.is-zooming { background: #ffffff; }
+.door-overlay.is-zooming .door-scene { transform: scale(7.5); opacity: 0; transition: transform 0.7s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.5s ease-in; }
 
-.door-scene {
-  perspective: 1200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: scale(0.85);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.door-status-text {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1.4rem;
-  color: var(--white);
-  text-shadow: 2px 2px 0 var(--border-dark);
-  margin-bottom: 24px;
-  letter-spacing: 0.5px;
-}
-
-/* 3D Dokodemo Door Rig */
-.anywhere-door-frame {
-  width: 240px;
-  height: 380px;
-  position: relative;
-  transform-style: preserve-3d;
-}
-
-/* Architrave / Top Header */
-.door-architrave {
-  position: absolute;
-  top: -16px;
-  left: -12px;
-  right: -12px;
-  height: 20px;
-  background: var(--anywhere-pink-dark);
-  border: 3.5px solid var(--border-dark);
-  border-radius: 6px;
-  box-shadow: var(--shadow-comic-sm);
-  z-index: 5;
-}
-
-/* Door Threshold Base */
-.door-base {
-  position: absolute;
-  bottom: -16px;
-  left: -16px;
-  right: -16px;
-  height: 20px;
-  background: var(--anywhere-pink-dark);
-  border: 3.5px solid var(--border-dark);
-  border-radius: 6px;
-  box-shadow: var(--shadow-comic-sm);
-  z-index: 5;
-}
-
-/* Outer Door Portal Moulding */
-.door-portal {
-  width: 100%;
-  height: 100%;
-  background: var(--anywhere-pink-dark);
-  border: 4px solid var(--border-dark);
-  border-radius: 8px;
-  padding: 10px;
-  position: relative;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
-  transform-style: preserve-3d;
-}
-
-/* The Glowing Portal Inside */
-.doorway-void {
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, #ffffff 10%, #fff9c4 40%, #ff80ab 100%);
-  border: 2px solid var(--border-dark);
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.light-rays {
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: repeating-conic-gradient(from 0deg, rgba(255, 255, 255, 0.8) 0deg 15deg, rgba(255, 210, 0, 0.4) 15deg 30deg);
-  animation: rotateLight 12s linear infinite;
-}
-
-@keyframes rotateLight {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.light-core {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 0 60px 40px #ffffff, 0 0 100px 70px #ffd200;
-  opacity: 0.85;
-}
-
-.destination-preview {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-}
-
-.dest-badge {
-  background: rgba(0, 0, 0, 0.7);
-  color: var(--white);
-  border-radius: var(--radius-full);
-  padding: 6px 14px;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-/* 3D Swinging Door Leaf */
-.door-leaf-3d {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  background: var(--anywhere-pink);
-  border: 3.5px solid var(--border-dark);
-  border-radius: 5px;
-  transform-origin: left center;
-  transform-style: preserve-3d;
-  transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.4);
-  z-index: 10;
-}
-
-.door-face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.panel-recess {
-  background: #e91e63;
-  border: 3px solid var(--border-dark);
-  border-radius: 6px;
-  height: 42%;
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.25);
-}
-
-.door-knob {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 22px;
-  height: 22px;
-  background: radial-gradient(circle at 35% 35%, #fff9c4, var(--doraemon-yellow) 60%, #b8860b 100%);
-  border: 2.5px solid var(--border-dark);
-  border-radius: 50%;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
-}
-
-.knob-shine {
-  width: 5px;
-  height: 5px;
-  background: #ffffff;
-  border-radius: 50%;
-  margin: 3px 0 0 4px;
-}
-
-/* Door overlay active classes */
-.door-overlay.is-active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.door-overlay.is-active .door-scene {
-  transform: scale(1);
-}
-
-.door-overlay.is-opening #swinging-door-leaf {
-  transform: rotateY(-112deg);
-}
-
-.door-overlay.is-zooming {
-  background: #ffffff;
-  transition: background 0.6s ease;
-}
-
-.door-overlay.is-zooming .door-scene {
-  transform: scale(7.5);
-  opacity: 0;
-  transition: transform 0.7s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.5s ease-in;
-}
-
-/* --------------------------------------------------------------------------
-   12. GULLIVER TUNNEL FULLSCREEN SWIRL TRANSITION OVERLAY
-   -------------------------------------------------------------------------- */
-.tunnel-overlay {
-  background: radial-gradient(circle at center, #0f172a 0%, #1e1b4b 60%, #030712 100%);
-}
-
-.tunnel-scene {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-
-.tunnel-status-text {
-  position: absolute;
-  top: 15%;
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1.5rem;
-  color: #38bdf8;
-  text-shadow: 0 0 15px rgba(56, 189, 248, 0.8), 2px 2px 0 var(--border-dark);
-  z-index: 20;
-}
-
-.tunnel-vortex {
-  position: relative;
-  width: 500px;
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(0.6) rotate(0deg);
-  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.tunnel-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 12px dashed #38bdf8;
-  box-shadow: 0 0 30px rgba(56, 189, 248, 0.7), inset 0 0 30px rgba(168, 85, 247, 0.7);
-  animation: swirlRing 3s linear infinite;
-}
-
+/* Tunnel Overlay */
+.tunnel-overlay { background: radial-gradient(circle at center, #0f172a 0%, #1e1b4b 60%, #030712 100%); }
+.tunnel-scene { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100vw; height: 100vh; }
+.tunnel-status-text { position: absolute; top: 15%; font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: #38bdf8; text-shadow: 0 0 15px rgba(56, 189, 248, 0.8), 2px 2px 0 var(--border-dark); z-index: 20; }
+.tunnel-vortex { position: relative; width: 500px; height: 500px; display: flex; align-items: center; justify-content: center; transform: scale(0.6) rotate(0deg); transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.tunnel-ring { position: absolute; border-radius: 50%; border: 12px dashed #38bdf8; box-shadow: 0 0 30px rgba(56, 189, 248, 0.7); animation: swirlRing 3s linear infinite; }
 .ring-1 { width: 480px; height: 480px; border-color: #0096E0; animation-duration: 4s; }
 .ring-2 { width: 400px; height: 400px; border-color: #6366f1; border-width: 14px; animation-duration: 3.5s; animation-direction: reverse; }
 .ring-3 { width: 320px; height: 320px; border-color: #a855f7; border-width: 16px; animation-duration: 3s; }
@@ -1546,106 +1816,24 @@ body {
 .ring-5 { width: 170px; height: 170px; border-color: #ffffff; border-width: 20px; animation-duration: 2s; }
 .ring-6 { width: 100px; height: 100px; border-color: #ffd200; border-width: 22px; animation-duration: 1.5s; }
 .ring-7 { width: 40px; height: 40px; border-color: #ffffff; border-width: 20px; animation-duration: 1s; animation-direction: reverse; }
+.tunnel-center-sparkle { position: absolute; width: 30px; height: 30px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 50px 30px #38bdf8; }
+@keyframes swirlRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.tunnel-overlay.is-active { opacity: 1; pointer-events: auto; }
+.tunnel-overlay.is-active .tunnel-vortex { transform: scale(2.8) rotate(720deg); }
+.tunnel-overlay.is-collapsing { opacity: 0; transition: opacity 0.5s ease-out; }
 
-.tunnel-center-sparkle {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 0 50px 30px #38bdf8, 0 0 80px 50px #a855f7;
-}
-
-@keyframes swirlRing {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Gulliver Active States */
-.tunnel-overlay.is-active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.tunnel-overlay.is-active .tunnel-vortex {
-  transform: scale(2.8) rotate(720deg);
-}
-
-.tunnel-overlay.is-collapsing {
-  opacity: 0;
-  transition: opacity 0.5s ease-out;
-}
+/* Big Light Overlay */
+.big-light-overlay { background: transparent; pointer-events: none; opacity: 0; transition: opacity 0.35s ease; overflow: hidden; z-index: 9998; }
+.big-light-overlay.is-active { opacity: 1; pointer-events: auto; }
+.big-light-emitter { position: absolute; width: 90px; height: 90px; margin-left: -45px; margin-top: -45px; border-radius: 50%; pointer-events: none; transform: scale(0); will-change: transform; transform-origin: center center; transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: center; }
+.big-light-core { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at center, #ffffff 15%, #fffbe6 40%, #ffd700 70%, rgba(255, 215, 0, 0) 100%); box-shadow: 0 0 50px 30px #ffffff, 0 0 100px 70px rgba(255, 215, 0, 0.85); }
+.big-light-wash { position: absolute; inset: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, #ffffff 60%, #fffbe8 100%); opacity: 0; pointer-events: none; transition: opacity 0.22s ease-in; }
+.big-light-overlay.is-expanding .big-light-emitter { transform: scale(42); }
+.big-light-overlay.is-bright .big-light-wash { opacity: 1; }
+.big-light-overlay.is-fading { opacity: 0; transition: opacity 0.42s ease-out; }
 
 /* --------------------------------------------------------------------------
-   12B. BIG LIGHT FULLSCREEN TRANSITION OVERLAY (Scale & Opacity only)
-   -------------------------------------------------------------------------- */
-.big-light-overlay {
-  background: transparent;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  overflow: hidden;
-  z-index: 9998;
-}
-
-.big-light-overlay.is-active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.big-light-emitter {
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  margin-left: -45px;
-  margin-top: -45px;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: scale(0);
-  will-change: transform;
-  transform-origin: center center;
-  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.big-light-core {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle at center, #ffffff 15%, #fffbe6 40%, #ffd700 70%, rgba(255, 215, 0, 0) 100%);
-  box-shadow: 0 0 50px 30px #ffffff, 0 0 100px 70px rgba(255, 215, 0, 0.85);
-}
-
-.big-light-wash {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(circle at center, #ffffff 60%, #fffbe8 100%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.22s ease-in;
-}
-
-/* Expanding beam */
-.big-light-overlay.is-expanding .big-light-emitter {
-  transform: scale(42);
-}
-
-.big-light-overlay.is-bright .big-light-wash {
-  opacity: 1;
-}
-
-.big-light-overlay.is-fading {
-  opacity: 0;
-  transition: opacity 0.42s ease-out;
-}
-
-/* --------------------------------------------------------------------------
-   13. ACCESSIBILITY & PREFERS-REDUCED-MOTION
+   ACCESSIBILITY & PREFERS-REDUCED-MOTION
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1654,141 +1842,27 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
-  .rotor-blades {
-    animation: none;
-  }
-
-  .doraemon-body-group {
-    animation: none;
-  }
-
-  .clouds-slow, .clouds-fast {
-    animation: none;
-  }
-
-  .door-overlay.is-opening #swinging-door-leaf {
-    transform: none;
-  }
-
-  .door-overlay.is-zooming .door-scene {
-    transform: none;
-    opacity: 0;
-  }
-
-  .tunnel-overlay.is-active .tunnel-vortex {
-    transform: none;
-  }
+  .dorayaki-trail-container, .panic-mouse, .sleep-zzz-container { display: none !important; }
 }
 
 /* --------------------------------------------------------------------------
-   14. RESPONSIVE DESIGN (TABLET & MOBILE)
+   RESPONSIVE DESIGN (TABLET & MOBILE)
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
-  .hero-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .hero-title {
-    font-size: 2.8rem;
-  }
-
-  .hero-description, .hero-hint-card {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-cta-group {
-    justify-content: center;
-  }
-
-  .hero-visual {
-    margin-top: 24px;
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-box {
-    grid-template-columns: 1fr;
-    padding: 28px;
-  }
-
-  /* Make flying Doraemon slightly smaller and position safely */
-  .flying-doraemon-wrapper {
-    width: 200px;
-    height: 190px;
-    top: 100px;
-    right: 10px;
-  }
-
-  .doraemon-svg {
-    width: 120px;
-    height: 147px;
-  }
-
-  .speech-bubble {
-    font-size: 0.8rem;
-    max-width: 190px;
-    padding: 8px 10px;
-  }
+  .hero-container, .about-grid, .contact-box { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2.8rem; }
+  .flying-doraemon-wrapper { width: 200px; height: 190px; top: 100px; right: 10px; }
+  .doraemon-svg { width: 120px; height: 152px; }
+  .speech-bubble { font-size: 0.8rem; max-width: 190px; }
 }
 
 @media (max-width: 640px) {
-  .nav-menu {
-    display: none; /* Mobile menu simplicity */
-  }
-
-  .navbar {
-    top: 8px;
-    padding: 0 10px;
-  }
-
-  .nav-container {
-    padding: 6px 14px;
-  }
-
-  .hero-title {
-    font-size: 2.2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .cta-door-btn {
-    width: 100%;
-    justify-content: center;
-    font-size: 1rem;
-  }
-
-  .cta-secondary-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .flying-doraemon-wrapper {
-    width: 160px;
-    height: 160px;
-    top: auto;
-    bottom: 20px;
-    right: 12px;
-  }
-
-  .doraemon-svg {
-    width: 100px;
-    height: 122px;
-  }
-
-  .speech-bubble {
-    max-width: 160px;
-    font-size: 0.74rem;
-  }
-
-  .tunnel-vortex {
-    width: 320px;
-    height: 320px;
-  }
+  .nav-menu { display: none; }
+  .navbar { top: 8px; padding: 0 10px; }
+  .nav-container { padding: 6px 12px; }
+  .hero-title { font-size: 2.2rem; }
+  .flying-doraemon-wrapper { width: 160px; height: 160px; top: auto; bottom: 20px; right: 12px; }
+  .doraemon-svg { width: 100px; height: 126px; }
+  .speech-bubble { max-width: 160px; font-size: 0.74rem; }
+  .dorayaki-trail-container { display: none; }
 }
