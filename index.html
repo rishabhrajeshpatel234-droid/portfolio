@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rishabh Patel | Python Beginner & Systems/AI Explorer</title>
+  <meta name="description" content="Personal portfolio of Rishabh Patel, a student at Newton School of Technology (NST) learning Python, Systems, and AI. Featuring interactive Doraemon-inspired animations!">
+  
+  <!-- Playful Google Fonts (Fredoka & Baloo 2) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Animated Sky & Clouds Background Canvas -->
+  <div class="sky-background" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="clouds-layer clouds-slow">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+      <div class="cloud cloud-4"></div>
+    </div>
+    <div class="clouds-layer clouds-fast">
+      <div class="cloud cloud-5"></div>
+      <div class="cloud cloud-6"></div>
+      <div class="cloud cloud-7"></div>
+    </div>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar" id="main-nav">
+    <div class="nav-container">
+      <a href="#home" class="nav-brand" id="nav-brand-link">
+        <span class="bell-icon" aria-hidden="true">🔔</span>
+        <span class="brand-text">Rishabh<span class="dot-accent">.</span>py</span>
+      </a>
+
+      <nav class="nav-menu" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><button class="nav-link" id="nav-home-btn" data-target="home">Home</button></li>
+          <li><button class="nav-link" id="nav-about-btn" data-target="about">About</button></li>
+          <li><a href="#skills" class="nav-link" id="nav-skills-link">Skills</a></li>
+          <li><a href="#journey" class="nav-link" id="nav-journey-link">Journey</a></li>
+          <li><a href="#contact" class="nav-link" id="nav-contact-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="gadget-toggle-btn" id="door-quick-btn" title="Open Anywhere Door to About">
+          <span class="door-mini-icon">🚪</span> Anywhere Door
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- FLYING DORAEMON ON SCROLL (Fixed on screen, animated by scroll) -->
+  <aside class="flying-doraemon-wrapper" id="flying-doraemon" aria-label="Flying Doraemon companion">
+    <!-- Animated Speech Bubble -->
+    <div class="speech-bubble" id="doraemon-speech" role="status" aria-live="polite">
+      <span class="bubble-text" id="typing-text">I am a Python beginner, learning Systems and AI!</span>
+      <div class="bubble-tail"></div>
+    </div>
+
+    <!-- Doraemon Character Illustration (Pure SVG) -->
+    <div class="doraemon-character">
+      <svg class="doraemon-svg" viewBox="0 0 220 270" width="160" height="196" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="noseGlow" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#ff7b88" />
+            <stop offset="70%" stop-color="#e12b38" />
+            <stop offset="100%" stop-color="#a80f1b" />
+          </radialGradient>
+          <radialGradient id="bellGlow" cx="40%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#fff8b5" />
+            <stop offset="60%" stop-color="#ffd200" />
+            <stop offset="100%" stop-color="#c99700" />
+          </radialGradient>
+          <filter id="comicShadow" x="-10%" y="-10%" width="130%" height="130%">
+            <feDropShadow dx="3" dy="4" stdDeviation="0" flood-color="#143058" flood-opacity="0.25"/>
+          </filter>
+        </defs>
+
+        <!-- Propeller (Take-copter / Bamboo-copter) -->
+        <g class="take-copter" id="take-copter">
+          <!-- Spinning Rotor Blade -->
+          <g class="rotor-blades">
+            <ellipse cx="110" cy="8" rx="42" ry="4" fill="#ffd200" stroke="#1a202c" stroke-width="2.2" />
+            <ellipse cx="110" cy="8" rx="8" ry="3" fill="#ff7043" />
+          </g>
+          <!-- Copter Shaft -->
+          <line x1="110" y1="8" x2="110" y2="24" stroke="#e0a800" stroke-width="4.5" stroke-linecap="round" />
+          <line x1="110" y1="8" x2="110" y2="24" stroke="#1a202c" stroke-width="1.5" />
+          <!-- Suction Base Mount -->
+          <ellipse cx="110" cy="25" rx="14" ry="5.5" fill="#ffd200" stroke="#1a202c" stroke-width="2.5" />
+        </g>
+
+        <!-- Character Body Group (with idle floating bob) -->
+        <g class="doraemon-body-group" filter="url(#comicShadow)">
+          <!-- Left and Right Feet -->
+          <ellipse cx="85" cy="242" rx="22" ry="12" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+          <ellipse cx="135" cy="242" rx="22" ry="12" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+
+          <!-- Main Chubby Blue Body -->
+          <ellipse cx="110" cy="186" rx="54" ry="48" fill="#0096E0" stroke="#1a202c" stroke-width="3.5" />
+
+          <!-- Round Ball Hands (Holding Banner) -->
+          <circle cx="48" cy="182" r="16" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+          <circle cx="172" cy="182" r="16" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+
+          <!-- White Belly Patch -->
+          <ellipse cx="110" cy="188" rx="38" ry="34" fill="#ffffff" stroke="#1a202c" stroke-width="2.8" />
+
+          <!-- 4-D Magic Pocket (Yojigen Pocket) -->
+          <path d="M 86 186 Q 110 186 134 186 Q 134 212 110 212 Q 86 212 86 186 Z" fill="#ffffff" stroke="#1a202c" stroke-width="2.6" />
+
+          <!-- Head (Large Blue Circle) -->
+          <circle cx="110" cy="95" r="70" fill="#0096E0" stroke="#1a202c" stroke-width="3.5" />
+
+          <!-- White Face Mask -->
+          <ellipse cx="110" cy="107" rx="58" ry="50" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+
+          <!-- Big Cartoon Eyes -->
+          <g class="doraemon-eyes">
+            <!-- Left Eye -->
+            <ellipse cx="96" cy="62" rx="14" ry="19" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+            <circle class="pupil pupil-left" cx="101" cy="64" r="5" fill="#1a202c" />
+            <circle cx="99" cy="61" r="1.8" fill="#ffffff" />
+            <!-- Right Eye -->
+            <ellipse cx="124" cy="62" rx="14" ry="19" fill="#ffffff" stroke="#1a202c" stroke-width="3" />
+            <circle class="pupil pupil-right" cx="119" cy="64" r="5" fill="#1a202c" />
+            <circle cx="117" cy="61" r="1.8" fill="#ffffff" />
+          </g>
+
+          <!-- Red Round Nose with Shine -->
+          <circle cx="110" cy="83" r="10.5" fill="url(#noseGlow)" stroke="#1a202c" stroke-width="2.6" />
+          <ellipse cx="107" cy="79" rx="3" ry="2" fill="#ffffff" opacity="0.85" />
+
+          <!-- Nose-to-Mouth Line -->
+          <line x1="110" y1="93.5" x2="110" y2="128" stroke="#1a202c" stroke-width="2.8" stroke-linecap="round" />
+
+          <!-- Cheerful Cartoon Smile -->
+          <path d="M 72 118 Q 110 156 148 118" fill="#e12b38" stroke="#1a202c" stroke-width="3" stroke-linecap="round" />
+          <path d="M 88 132 Q 110 148 132 132" fill="#ff7582" opacity="0.9" />
+
+          <!-- Whiskers (3 on each side) -->
+          <!-- Left Whiskers -->
+          <line x1="100" y1="98" x2="62" y2="92" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+          <line x1="99" y1="108" x2="58" y2="108" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+          <line x1="100" y1="118" x2="64" y2="124" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+          <!-- Right Whiskers -->
+          <line x1="120" y1="98" x2="158" y2="92" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+          <line x1="121" y1="108" x2="162" y2="108" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+          <line x1="120" y1="118" x2="156" y2="124" stroke="#1a202c" stroke-width="2.4" stroke-linecap="round" />
+
+          <!-- Red Collar -->
+          <rect x="66" y="152" width="88" height="13" rx="6.5" fill="#e12b38" stroke="#1a202c" stroke-width="3" />
+
+          <!-- Golden Bell -->
+          <g class="doraemon-bell">
+            <circle cx="110" cy="166" r="11" fill="url(#bellGlow)" stroke="#1a202c" stroke-width="2.6" />
+            <line x1="100" y1="163" x2="120" y2="163" stroke="#1a202c" stroke-width="2" />
+            <line x1="101" y1="165" x2="119" y2="165" stroke="#1a202c" stroke-width="1.8" />
+            <circle cx="110" cy="169" r="2.8" fill="#1a202c" />
+            <line x1="110" y1="171.8" x2="110" y2="177" stroke="#1a202c" stroke-width="2" />
+          </g>
+
+          <!-- Banner Hanging / Held by Doraemon -->
+          <g class="name-banner" transform="translate(0, 32)">
+            <rect x="22" y="196" width="176" height="34" rx="8" fill="#ffd200" stroke="#1a202c" stroke-width="3" />
+            <rect x="26" y="200" width="168" height="26" rx="5" fill="#ffffff" />
+            <text x="110" y="218" text-anchor="middle" font-family="'Baloo 2', 'Fredoka', cursive" font-weight="800" font-size="15" fill="#0096E0" letter-spacing="1">★ RISHABH PATEL ★</text>
+            <!-- Banner Ribbon Ends -->
+            <polygon points="16,204 22,196 22,230 16,222 10,213" fill="#e12b38" stroke="#1a202c" stroke-width="2" />
+            <polygon points="204,204 198,196 198,230 204,222 210,213" fill="#e12b38" stroke="#1a202c" stroke-width="2" />
+          </g>
+        </g>
+      </svg>
+    </div>
+  </aside>
+
+  <!-- MAIN SCROLLABLE CONTENT -->
+  <main id="main-content">
+    
+    <!-- 1. HOME SECTION -->
+    <section class="section hero-section" id="home">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Kon'nichiwa! Welcome to my pocket of the web</span>
+          </div>
+
+          <h1 class="hero-title">
+            Hi, I'm <span class="highlight-name">Rishabh Patel</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            <span class="nst-tag">🎓 Student at NST</span> (Newton School of Technology)
+          </p>
+
+          <p class="hero-description">
+            I am a curious <strong>Python beginner</strong> exploring the intricate world of 
+            <strong>Computer Systems</strong> and the frontiers of <strong>Artificial Intelligence</strong>. 
+            Step inside to discover my projects, skills, and coding adventures!
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="cta-door-btn" id="open-door-cta" aria-haspopup="dialog">
+              <span class="btn-icon">🚪</span>
+              <span class="btn-text">Open Anywhere Door to About Me</span>
+              <span class="btn-sparkle">✨</span>
+            </button>
+            <a href="#skills" class="cta-secondary-btn">
+              <span>View Skills & Gadgets</span>
+              <span class="arrow-icon">↓</span>
+            </a>
+          </div>
+
+          <div class="hero-hint-card">
+            <span class="hint-bell">🔔</span>
+            <p><strong>Doraemon's Secret Hint:</strong> Click <em>"Open Anywhere Door"</em> to travel instantly, or scroll down to watch me fly alongside you with the Take-copter!</p>
+          </div>
+        </div>
+
+        <!-- Hero Cartoon Illustration Card -->
+        <div class="hero-visual">
+          <div class="pocket-card">
+            <div class="pocket-card-inner">
+              <div class="mini-door-preview" id="interactive-preview-door" title="Click me to trigger the Anywhere Door!">
+                <div class="door-exterior">
+                  <div class="door-frame">
+                    <div class="door-leaf">
+                      <div class="door-panel top-panel"></div>
+                      <div class="door-handle"></div>
+                      <div class="door-panel bottom-panel"></div>
+                    </div>
+                  </div>
+                </div>
+                <span class="door-tag">Dokodemo Door</span>
+              </div>
+              <div class="pocket-badge">
+                <span class="pocket-half-circle"></span>
+                <span class="pocket-label">NST • Python • AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gentle Floating Hill Silhouette for Scene Depth -->
+      <div class="cartoon-ground">
+        <svg viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+          <path d="M0,64 C320,120 480,20 800,70 C1120,120 1280,30 1440,64 L1440,120 L0,120 Z" fill="#ffffff"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2. ABOUT SECTION -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">
+            <span>📖 CHAPTER 01</span>
+          </div>
+          <h2 class="section-title">About <span class="text-blue">Rishabh</span></h2>
+          <p class="section-lead">From basic print statements to dissecting systems and crafting intelligent algorithms.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card main-bio-card">
+            <div class="card-comic-corner">NST</div>
+            <h3 class="card-title">Who am I?</h3>
+            <p>
+              Hey there! I'm <strong>Rishabh Patel</strong>, currently pursuing my undergraduate studies at 
+              <strong>Newton School of Technology (NST)</strong>. 
+            </p>
+            <p>
+              I started my tech journey as a <strong>Python beginner</strong>, captivated by how a few lines of code can automate tasks, parse information, and solve real problems.
+            </p>
+            <p>
+              Right now, my dual passions are:
+            </p>
+            <ul class="passion-list">
+              <li>
+                <span class="passion-icon">⚙️</span>
+                <div>
+                  <strong>Systems:</strong> Understanding how computers truly work under the hood — memory layout, OS processes, low-level execution, and efficient architecture.
+                </div>
+              </li>
+              <li>
+                <span class="passion-icon">🧠</span>
+                <div>
+                  <strong>Artificial Intelligence:</strong> Demystifying mathematical foundations, neural networks, machine learning algorithms, and intelligent agents.
+                </div>
+              </li>
+            </ul>
+
+            <!-- Return via Gulliver Tunnel CTA -->
+            <div class="gulliver-cta-box">
+              <button class="gulliver-btn" id="tunnel-back-btn" title="Shrink through the Gulliver Tunnel back to Home">
+                <span class="tunnel-ring-icon">🌀</span>
+                <span>Ride the Gulliver Tunnel Back to Home</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Facts / Comic Sidebar -->
+          <div class="about-sidebar">
+            <div class="about-card stat-card">
+              <div class="stat-icon">🏫</div>
+              <div class="stat-info">
+                <h4>Campus</h4>
+                <p>Newton School of Technology (NST)</p>
+              </div>
+            </div>
+
+            <div class="about-card stat-card">
+              <div class="stat-icon">🐍</div>
+              <div class="stat-info">
+                <h4>Core Weapon</h4>
+                <p>Python 3.x & Shell scripting</p>
+              </div>
+            </div>
+
+            <div class="about-card stat-card">
+              <div class="stat-icon">🔭</div>
+              <div class="stat-info">
+                <h4>Focus Areas</h4>
+                <p>Systems Programming & Artificial Intelligence</p>
+              </div>
+            </div>
+
+            <div class="about-card stat-card">
+              <div class="stat-icon">⚡</div>
+              <div class="stat-info">
+                <h4>Philosophy</h4>
+                <p>"Small daily steps compound into miraculous gadgets!"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SKILLS & GADGET INVENTORY -->
+    <section class="section skills-section" id="skills">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">
+            <span>🎒 4-D POCKET</span>
+          </div>
+          <h2 class="section-title">Skills & <span class="text-blue">Gadget Stash</span></h2>
+          <p class="section-lead">The tools and technologies currently in my developer toolbox.</p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Skill: Python -->
+          <div class="skill-card" data-skill="python">
+            <div class="skill-icon-wrap python-color">
+              <span class="skill-emoji">🐍</span>
+            </div>
+            <div class="skill-content">
+              <div class="skill-badge-level">Beginner / Intermediate</div>
+              <h3 class="skill-name">Python</h3>
+              <p class="skill-desc">
+                Writing clean scripts, core data structures (lists, dictionaries, sets), functions, file I/O, OOP principles, and exploring standard libraries.
+              </p>
+              <div class="skill-tags">
+                <span>OOP</span>
+                <span>Automation</span>
+                <span>Logic</span>
+                <span>Data Structures</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skill: Git -->
+          <div class="skill-card" data-skill="git">
+            <div class="skill-icon-wrap git-color">
+              <span class="skill-emoji">🌿</span>
+            </div>
+            <div class="skill-content">
+              <div class="skill-badge-level">Foundational</div>
+              <h3 class="skill-name">Git</h3>
+              <p class="skill-desc">
+                Version control fundamentals: tracking changes, branching strategies, commits, stashing, and resolving merge conflicts cleanly.
+              </p>
+              <div class="skill-tags">
+                <span>CLI</span>
+                <span>Branching</span>
+                <span>Commits</span>
+                <span>Diffs</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skill: GitHub -->
+          <div class="skill-card" data-skill="github">
+            <div class="skill-icon-wrap github-color">
+              <span class="skill-emoji">🐙</span>
+            </div>
+            <div class="skill-content">
+              <div class="skill-badge-level">Active User</div>
+              <h3 class="skill-name">GitHub</h3>
+              <p class="skill-desc">
+                Remote repository management, issue tracking, markdown documentation, pull requests, and participating in open-source developer workflows.
+              </p>
+              <div class="skill-tags">
+                <span>Repositories</span>
+                <span>Pull Requests</span>
+                <span>Markdown</span>
+                <span>Collaboration</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skill: Systems & AI (In-Flight) -->
+          <div class="skill-card highlight-skill" data-skill="systems-ai">
+            <div class="skill-icon-wrap ai-color">
+              <span class="skill-emoji">🧠</span>
+            </div>
+            <div class="skill-content">
+              <div class="skill-badge-level special">Active Learning</div>
+              <h3 class="skill-name">Systems & AI Concepts</h3>
+              <p class="skill-desc">
+                Studying memory models, operating system essentials, linear algebra for ML, neural network architectures, and modern agentic computing.
+              </p>
+              <div class="skill-tags">
+                <span>Operating Systems</span>
+                <span>ML Foundations</span>
+                <span>Math for AI</span>
+                <span>Algorithms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. JOURNEY & MILESTONES SECTION -->
+    <section class="section journey-section" id="journey">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">
+            <span>🚀 TIME MACHINE LOG</span>
+          </div>
+          <h2 class="section-title">My Learning <span class="text-blue">Milestones</span></h2>
+          <p class="section-lead">The steps I'm taking at NST on my voyage toward becoming a software engineer.</p>
+        </div>
+
+        <div class="timeline">
+          <!-- Step 1 -->
+          <div class="timeline-item">
+            <div class="timeline-dot">1</div>
+            <div class="timeline-card">
+              <span class="timeline-date">Phase 1</span>
+              <h3 class="timeline-title">Admitted to Newton School of Technology (NST)</h3>
+              <p>
+                Embarqued on an industry-focused computer science journey with hands-on labs, collaborative peer-programming, and real-world problem sets.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="timeline-item">
+            <div class="timeline-dot">2</div>
+            <div class="timeline-card">
+              <span class="timeline-date">Phase 2</span>
+              <h3 class="timeline-title">Mastering the Python Language</h3>
+              <p>
+                Wrote my first "Hello World", navigated through loops, control flow, functions, and structured problem solving on competitive coding platforms.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="timeline-item">
+            <div class="timeline-dot">3</div>
+            <div class="timeline-card">
+              <span class="timeline-date">Phase 3</span>
+              <h3 class="timeline-title">Embracing Git & Open Source Culture</h3>
+              <p>
+                Learned command-line Git workflow, pushing code to GitHub, reviewing PRs, and maintaining project documentation.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="timeline-item">
+            <div class="timeline-dot">4</div>
+            <div class="timeline-card current-phase">
+              <span class="timeline-date">Current Horizon</span>
+              <h3 class="timeline-title">Diving Deep into Systems & AI</h3>
+              <p>
+                Expanding beyond basic scripting into understanding how hardware coordinates with software, and building initial AI models and experiments.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CONTACT & CONNECT SECTION -->
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">
+            <span>📬 DORAEMON MAILBOX</span>
+          </div>
+          <h2 class="section-title">Let's <span class="text-blue">Connect!</span></h2>
+          <p class="section-lead">Always eager to collaborate with fellow learners, engineers, and mentors.</p>
+        </div>
+
+        <div class="contact-box">
+          <div class="contact-text">
+            <h3>Ready to build something awesome?</h3>
+            <p>
+              Whether you want to discuss Python tricks, systems architecture, or share cool AI papers, my inbox is open!
+            </p>
+            <div class="contact-links">
+              <a href="https://github.com/rishabhrajeshpatel234-droid" target="_blank" rel="noopener noreferrer" class="contact-pill github-pill" id="github-profile-link">
+                <span class="pill-icon">🐙</span>
+                <span>GitHub Profile</span>
+              </a>
+              <a href="mailto:rishabh@example.com" class="contact-pill mail-pill" id="email-contact-link">
+                <span class="pill-icon">✉️</span>
+                <span>Email Rishabh</span>
+              </a>
+              <a href="https://www.newtonschool.co/nst" target="_blank" rel="noopener noreferrer" class="contact-pill nst-pill">
+                <span class="pill-icon">🎓</span>
+                <span>Newton School of Technology</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="tunnel-callout">
+            <h4>Ready to return?</h4>
+            <p>Test the Gulliver Tunnel warp drive back to the top of the page!</p>
+            <button class="gulliver-btn large-tunnel-btn" id="footer-tunnel-btn">
+              <span class="tunnel-ring-icon">🌀</span>
+              <span>Activate Gulliver Tunnel → Home</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <p>© 2026 <strong>Rishabh Patel</strong> • Student at NST (Newton School of Technology)</p>
+          <p class="footer-note">Handcrafted with pure HTML, CSS, and Vanilla JavaScript • Doraemon inspired theme 💙</p>
+        </footer>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- SPECIAL ANIMATION OVERLAYS                                   -->
+  <!-- ============================================================ -->
+
+  <!-- 1. ANYWHERE DOOR MODAL OVERLAY (Home -> About) -->
+  <div class="transition-overlay door-overlay" id="anywhere-door-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Anywhere Door Transition">
+    <div class="door-scene">
+      <div class="door-status-text">Transporting through Dokodemo Door...</div>
+      
+      <!-- 3D Anywhere Door Rig -->
+      <div class="anywhere-door-frame" id="door-rig">
+        <!-- Door Top Architrave / Sign -->
+        <div class="door-architrave"></div>
+
+        <!-- Door Frame Outer Moulding -->
+        <div class="door-portal">
+          <!-- The Glowing Dimensional Light inside doorway -->
+          <div class="doorway-void">
+            <div class="light-rays"></div>
+            <div class="light-core"></div>
+            <div class="destination-preview">
+              <span class="dest-badge">NST • ABOUT RISHABH</span>
+            </div>
+          </div>
+
+          <!-- Swinging Door Leaf -->
+          <div class="door-leaf-3d" id="swinging-door-leaf">
+            <div class="door-face door-front">
+              <div class="panel-recess panel-top"></div>
+              <div class="door-knob">
+                <div class="knob-shine"></div>
+              </div>
+              <div class="panel-recess panel-bottom"></div>
+            </div>
+            <div class="door-face door-back"></div>
+          </div>
+        </div>
+
+        <!-- Door Threshold/Base -->
+        <div class="door-base"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. GULLIVER TUNNEL OVERLAY (About -> Home) -->
+  <div class="transition-overlay tunnel-overlay" id="gulliver-tunnel-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Gulliver Tunnel Transition">
+    <div class="tunnel-scene">
+      <div class="tunnel-status-text">Entering Gulliver Tunnel... Shrinking back to Home!</div>
+      
+      <!-- Swirling Concentric Rings & Hypnotic Vortex -->
+      <div class="tunnel-vortex" id="tunnel-vortex-element">
+        <div class="tunnel-ring ring-1"></div>
+        <div class="tunnel-ring ring-2"></div>
+        <div class="tunnel-ring ring-3"></div>
+        <div class="tunnel-ring ring-4"></div>
+        <div class="tunnel-ring ring-5"></div>
+        <div class="tunnel-ring ring-6"></div>
+        <div class="tunnel-ring ring-7"></div>
+        <div class="tunnel-center-sparkle"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
