@@ -2,7 +2,8 @@
 
 A Doraemon-themed personal portfolio website built with pure HTML, CSS, and vanilla JavaScript (no external libraries or frameworks).
 
-**Live on GitHub Pages:** Open `index.html` in any browser or visit the deployed site.
+**Live Site:** [https://rishabhrajeshpatel234-droid.github.io/portfolio/](https://rishabhrajeshpatel234-droid.github.io/portfolio/)
+*(Or open `index.html` locally in any browser)*
 
 ---
 
